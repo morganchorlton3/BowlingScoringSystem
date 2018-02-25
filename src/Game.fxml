@@ -149,6 +149,11 @@
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </GridPane.margin>
             </TableView>
+            <Label fx:id="alertLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Label" visible="false" GridPane.columnIndex="1">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
       <Button fx:id="orderBtn" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#orderBtnHandle" text="Catering service" GridPane.rowIndex="1">

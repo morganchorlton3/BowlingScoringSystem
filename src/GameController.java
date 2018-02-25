@@ -1,3 +1,5 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -5,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -14,6 +18,18 @@ import java.io.IOException;
 
 public class GameController {
     /* Universal */
+    @FXML
+    Label alertLabel;
+
+    String message;
+    private void alert(String mesage){
+        alertLabel.setText(message);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), evt -> alertLabel.setVisible(false)),
+                new KeyFrame(Duration.seconds( 0.1), evt -> alertLabel.setVisible(true)));
+        timeline.setCycleCount(3);
+        timeline.play();
+
+    }
     private int max = 10;
     private static int getscore(int max) {
         Random rand = new Random();
@@ -53,16 +69,14 @@ public class GameController {
             lane1score.setVisible(true);
             max = 10 - score1;
             lane1BowlBtn.setText("Bowl again");
-            if (score1 == 10){
-                for (RadioButton button : radios) {
-                    button.setSelected(false);
-                }
-                turn = 3;
-                lane1score2.setVisible(true);
-                lane1score2.setText("Strike");
-            }
             int count = 0;
-            while(score1 >= count | score1 != 10){
+            if (score1 == 10) {
+                message = "Strike";
+                alert(message);
+                turn = 3;
+                lane1BowlBtn.setText("Next player");
+            }
+            while(score1 >= count ){
                 RadioButton button = radios.get(count);
                 if (count == score1) {
                     break;
@@ -73,6 +87,9 @@ public class GameController {
                     button.setSelected(false);
                     System.out.println("Error");
                     count ++;
+                }
+                else{
+                    break;
                 }
             }
             count = 1;
@@ -90,6 +107,12 @@ public class GameController {
             int count2 = 0;
             for (RadioButton button : radios) {
                 button.setSelected(true);
+            }
+            if (totalScore == 10){
+                message = "Spare";
+                alert(message);
+                turn = 3;
+                lane1BowlBtn.setText("Next player");
             }
             while(totalScore >= count2 | totalScore != 10){
                 RadioButton button = radios.get(count2);
@@ -118,46 +141,6 @@ public class GameController {
                 button.setSelected(true);
             }
         }
-    /*private void bowlBall(int turn){
-        if(turn == 1){
-            score = getscore(max);
-            lane1BowlBtn.setText("Bowl Again");
-        }
-    }
-
-        /*
-        count ++;
-        int score = getscore(max);
-        String scoreString=String.valueOf(score);
-        if (count == 1) {
-            lane1BowlBtn.setText("Bowl again");
-            s1 = score;
-        }else if (count == 2){
-            lane1BowlBtn.setText("Bowl ball");
-            s2 = score;
-            count = 0;
-            s3 = s1 + s2;
-            System.out.println("Total Score is " + s3);
-        }else if (score == 10){
-            lane1BowlBtn.setText("Bowl ball");
-            System.out.println("Congratulations a strike!");
-            count = 0;
-        }else{
-            lane1BowlBtn.setText("Bowl again");
-        }
-        lane1score.setVisible(true);
-        lane1score.setText(scoreString);
-        if (count == 2){
-
-        }
-        /*
-        max = score - 10;
-        System.out.println(max);
-        int score2 = getscore(max);
-        int total = 0;
-        total = score + score2 ;
-        System.out.println(total);
-        */
     }
     private void handleSound(int score1, int score2){
         try {
