@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane stylesheets="@Dark-Theme.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SetupController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <GridPane alignment="center" hgap="10" minHeight="-Infinity" minWidth="-Infinity" vgap="10" GridPane.rowIndex="1">
+         <children>
+            <TableView fx:id="table" accessibleRole="PAGE_ITEM" editable="true" prefHeight="400.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <placeholder>
+                  <Label text="Please add players to start a game" />
+               </placeholder>
+               <columns>
+                  <TableColumn fx:id="nameCol" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" resizable="false" text="Player">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="name" />
+                     </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="preferenceCol" editable="true" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Preference">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="Preference" />
+                     </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="barriersCol" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Barriers">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="Barriers" />
+                     </cellValueFactory>
+                  </TableColumn>
+               </columns>
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" />
+               </GridPane.margin>
+            </TableView>
+            <JFXButton alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#startBtnHandle" prefHeight="40.0" prefWidth="475.0" text="Start Game" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Name:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Preference:" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Barriers:" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="nameInput" maxWidth="1.7976931348623157E308" promptText="Enter name" GridPane.columnIndex="1" />
+                  <JFXComboBox fx:id="comboPreference" prefWidth="150.0" promptText="choose" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <items>
+                     <FXCollections fx:factory="observableArrayList">
+                        <String fx:id="Left" fx:value="Left" />
+                        <String fx:id="Right" fx:value="Right" />
+                     </FXCollections>
+                  </items>
+               </JFXComboBox>
+                  <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <JFXRadioButton fx:id="radioButtonYes" alignment="CENTER_LEFT" mnemonicParsing="false" prefHeight="21.0" prefWidth="101.0" text="Yes">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="yorn" />
+                           </toggleGroup>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="radioButtonNo" mnemonicParsing="false" text="No" toggleGroup="$yorn" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.rowIndex="1">
+               <children>
+                  <JFXButton fx:id="addButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="140.0" mnemonicParsing="false" onAction="#AddBtnhandle" text="Add Player">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="delButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="140.0" mnemonicParsing="false" onAction="#delBtnHandle" text="Remove Player" textAlignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets top="30.0" />
+               </padding>
+            </HBox>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints minWidth="-Infinity" prefWidth="300.0" />
+            <ColumnConstraints minWidth="-Infinity" prefWidth="530.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="-Infinity" />
+            <RowConstraints minHeight="-Infinity" />
+         </rowConstraints>
+         <stylesheets>
+            <URL value="@Dark-Theme.css" />
+         </stylesheets>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </GridPane>
+      <Label id="alertLabel" fx:id="alertLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Label" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </GridPane.margin>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </Label>
+   </children>
+</GridPane>
