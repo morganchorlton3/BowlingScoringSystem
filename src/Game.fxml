@@ -15,6 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import java.util.ArrayList?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane stylesheets="@Dark-Theme.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -133,17 +134,66 @@
             </Label>
             <TableView fx:id="scoreboard" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
               <columns>
-                <TableColumn fx:id="nameCol" prefWidth="150.0" resizable="false" text="Player Name" />
-                <TableColumn prefWidth="75.0" resizable="false" text="1" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="2" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="3" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="4" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="5" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="6" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="7" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="8" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="9" />
-                  <TableColumn prefWidth="75.0" resizable="false" text="10" />
+                <TableColumn fx:id="nameCol" prefWidth="150.0" resizable="false" text="Player Name" >
+                  <cellValueFactory>
+                      <PropertyValueFactory property="name" />
+                  </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="s1" prefWidth="70.0" resizable="false" text="1" >
+                  <cellValueFactory>
+                      <PropertyValueFactory property="s1" />
+                  </cellValueFactory>
+                </TableColumn>
+                  <TableColumn fx:id="s2" prefWidth="70.0" resizable="false" text="2" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s2" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="s3" prefWidth="70.0" resizable="false" text="3" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s3" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="s4" prefWidth="70.0" resizable="false" text="4" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s4" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="s5" prefWidth="70.0" resizable="false" text="5" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s5" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="s6" prefWidth="70.0" resizable="false" text="6" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s6" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="s7" prefWidth="70.0" resizable="false" text="7" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s7" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="s8" prefWidth="70.0" resizable="false" text="8" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s8" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="s9" prefWidth="70.0" resizable="false" text="9" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s9" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="s10" prefWidth="70.0" resizable="false" text="10" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="s10" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="85.0" resizable="false" text="Total" >
+                      <cellValueFactory>
+                          <PropertyValueFactory property="total" />
+                      </cellValueFactory>
+                  </TableColumn>
               </columns>
                <GridPane.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

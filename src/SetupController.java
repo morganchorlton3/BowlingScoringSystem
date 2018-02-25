@@ -99,7 +99,7 @@ public class SetupController{
                 stage.setScene(scene);
                 stage.show();
                 stage.setResizable(false);
-                stage.setWidth(800);
+                stage.setWidth(1400);
 
             } else if (option.get() == ButtonType.CANCEL) {
                 confirmAlert.close();

@@ -55,7 +55,7 @@ public class GameController {
     @FXML
     TableView scoreboard;
     @FXML
-    private TableColumn<String, String> nameCol;
+    private TableColumn<Integer, Integer> s1;
     private int turn = 1;
     @FXML
     private void lane1BtnHandle(ActionEvent event)throws IOException {
@@ -177,5 +177,8 @@ public class GameController {
             button.setDisable(true);
             button.setOpacity(1);
         }
+        Player newPlayer = new Player();
+        newPlayer.setName("Morgan");
+        scoreboard.getItems().add(newPlayer);
     }
 }
