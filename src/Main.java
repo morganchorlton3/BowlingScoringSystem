@@ -9,9 +9,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Game.fxml")); /* Default should be setup */
+        Parent root = FXMLLoader.load(getClass().getResource("Setup.fxml")); /* Default should be setup */
         primaryStage.setTitle("Bowling System, Setup");
-        primaryStage.setScene(new Scene(root, 1400, 650));/* Width should be 1000 */
+        primaryStage.setScene(new Scene(root, 1400, 650));/* Width should be 1000 for the setup screen */
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.getIcons().add(new Image("icon.png"));

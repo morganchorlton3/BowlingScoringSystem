@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 
 public class SetupController{
-
+    public static ArrayList<Player> playerList = new ArrayList<Player>();
     private String barriersResult;
     private String preferenceResult;
     private static final int MAX_Players = 8;
@@ -55,21 +56,18 @@ public class SetupController{
                 newPlayer.setBarriers(getBarriersResult());
                 nameInput.clear();
                 table.getItems().add(newPlayer);
-                ArrayList<Player> players = new ArrayList<Player>();
-                players.add(newPlayer);
-                System.out.println(newPlayer);
-                Iterator itr=players.iterator();
-
-                //traverse elements of ArrayList object
-                while(itr.hasNext()){
-                    Player st=(Player)itr.next();
-                    System.out.println(st.id + " " + st.name);
-                }
-                break;
+                playerList.add(newPlayer);
             }else {
                 break;
             }
         }
+    }
+    public static ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(ArrayList<Player> playerList) {
+        this.playerList = playerList;
     }
     @FXML
     private void delBtnHandle(ActionEvent event) {
@@ -82,7 +80,6 @@ public class SetupController{
     @FXML
     private void startBtnHandle(ActionEvent event)throws IOException {
         if (checkMinPlayers(table) == true) {
-
             int playerList = table.getItems().size();
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setHeaderText("Are you sure you want to start the game?");

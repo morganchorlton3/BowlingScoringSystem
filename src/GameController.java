@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -15,9 +16,11 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 import java.util.*;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameController {
     /* Universal */
+    public static ArrayList<Player> PlayerList = SetupController.getPlayerList();
     @FXML
     Label alertLabel;
 
@@ -57,8 +60,25 @@ public class GameController {
     @FXML
     private TableColumn<Integer, Integer> s1;
     private int turn = 1;
+    public static final AtomicInteger aioc = new AtomicInteger(0);
+    int overallCount = aioc.get();
+    int overalScore = 0;
     @FXML
     private void lane1BtnHandle(ActionEvent event)throws IOException {
+        boolean lastGo = false;
+        if (overallCount <= 9){
+            takeTurn(lastGo);
+        }else if (overallCount == 10){
+            lastGo = true;
+            takeTurn(lastGo);
+        }else if (overallCount > 10){
+            System.out.println("Error Game over");
+        }
+    }
+    private void takeTurn(boolean lastGo){
+        if (lastGo == true){
+            System.out.println("Handle last go");
+        }
         if (turn == 1) {
             int score1 = getscore(max);
             String score1String = String.valueOf(score1);
@@ -71,10 +91,7 @@ public class GameController {
             lane1BowlBtn.setText("Bowl again");
             int count = 0;
             if (score1 == 10) {
-                message = "Strike";
-                alert(message);
-                turn = 3;
-                lane1BowlBtn.setText("Next player");
+                handleStrike();
             }
             while(score1 >= count ){
                 RadioButton button = radios.get(count);
@@ -93,6 +110,8 @@ public class GameController {
                 }
             }
             count = 1;
+            int score = score1;
+            keepScore(score, overalScore);
             turn ++;
         }else if (turn == 2){
             lane1add.setVisible(true);
@@ -109,10 +128,7 @@ public class GameController {
                 button.setSelected(true);
             }
             if (totalScore == 10){
-                message = "Spare";
-                alert(message);
-                turn = 3;
-                lane1BowlBtn.setText("Next player");
+                handleSpare();
             }
             while(totalScore >= count2 | totalScore != 10){
                 RadioButton button = radios.get(count2);
@@ -127,6 +143,8 @@ public class GameController {
                 }
             }
             count2 = 0;
+            int score = score2;
+            keepScore(score, overalScore);
             turn ++;
 
         }else if (turn == 3){
@@ -134,12 +152,15 @@ public class GameController {
             lane1score2.setVisible(false);
             lane1add.setVisible(false);
             lane1BowlBtn.setText("Bowl ball");
-            max = 10;
-            turn = 1;
-            totalScore = 0;
             for (RadioButton button : radios) {
                 button.setSelected(true);
             }
+            overallCount = aioc.incrementAndGet();
+            System.out.println("go: " + overallCount);
+            System.out.println(overalScore);
+            max = 10;
+            turn = 1;
+            totalScore = 0;
         }
     }
     private void handleSound(int score1, int score2){
@@ -161,6 +182,32 @@ public class GameController {
         }
 
     }
+    /* table view */
+    private void handleStrike(){
+        message = "Strike";
+        alert(message);
+        turn = 3;
+        lane1BowlBtn.setText("Next player");
+    }
+    private void handleSpare(){
+        message = "Spare";
+        alert(message);
+        turn = 3;
+        lane1BowlBtn.setText("Next player");
+    }
+    private void keepScore(int score, int overalScore){
+        overalScore = overalScore + score;
+    }
+    public void initialize() {
+        for (RadioButton button : radios) {
+            button.setDisable(true);
+            button.setOpacity(1);
+        }
+        for (int i = 0; i < PlayerList.size(); i++) {
+            scoreboard.getItems().add(PlayerList.get(i));
+        }
+
+    }
     /* Order Food */
     @FXML
     private void orderBtnHandle(ActionEvent event) throws IOException{
@@ -171,14 +218,5 @@ public class GameController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-    public void initialize() {
-        for (RadioButton button : radios) {
-            button.setDisable(true);
-            button.setOpacity(1);
-        }
-        Player newPlayer = new Player();
-        newPlayer.setName("Morgan");
-        scoreboard.getItems().add(newPlayer);
     }
 }
