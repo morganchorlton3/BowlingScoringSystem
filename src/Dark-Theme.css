@@ -2,6 +2,7 @@
     -fx-primary : #2A2E37;
     -fx-secondary : #FFFF8D;
     -fx-primarytext : #B2B2B2;
+    -fx-secondarytext : #FFFF8D;
     -fx-blue: #1976D2;
     -fx-red: #FF0000;
 }
@@ -37,16 +38,19 @@
 }
 /*ComboBox*/
 .jfx-combo-box{
-    -fx-text-fill: -fx-primarytext;
+    -fx-text-fill: -fx-secondarytext;
     -fx-font-size : 13pt;
-    -jfx-focus-color: -fx-secondary;
+    -jfx-focus-color: -fx-secondarytext;
 }
-.combo-box .combo-box-popup .list-view, .combo-box .combo-box-popup .list-cell {
+.jfx-combo-box .cell{
+    -fx-text-fill: -fx-secondarytext;
+}
+.jfx-combo-box .combo-box-popup .list-view, .combo-box .combo-box-popup .list-cell {
     -fx-background-color: -fx-primary;
-    -fx-text-fill: -fx-primarytext;
+    -fx-text-fill: -fx-secondarytext;
     -fx-opacity: 75%;
 }
-.combo-box .combo-box-popup .list-cell:hover {
+.jfx-combo-box .combo-box-popup .list-cell:hover {
     -fx-text-fill: -fx-primary;
     -fx-background-color: -fx-secondary ;
 }
@@ -56,10 +60,13 @@
 /*Radio Button*/
 .radio-button{
     -fx-text-fill: -fx-primarytext;
+    -fx-selected-color: blue;
+    -fx-unselected-color: black;
 }
-.radio-button .radio:selected{
-    -fx-background-color : -fx-secondary ;
+.radio-button .selected{
+    -fx-button-color: yellow;
 }
+
 /*TableView Default*/
 .table-view{
     -fx-background-color: derive(-fx-primary, 10%);

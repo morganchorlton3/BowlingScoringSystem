@@ -100,7 +100,7 @@
                </JFXComboBox>
                   <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <JFXRadioButton fx:id="radioButtonYes" alignment="CENTER_LEFT" mnemonicParsing="false" prefHeight="21.0" prefWidth="101.0" text="Yes">
+                        <JFXRadioButton fx:id="radioButtonYes" alignment="CENTER_LEFT" mnemonicParsing="false" prefHeight="21.0" prefWidth="75.0" text="Yes">
                            <toggleGroup>
                               <ToggleGroup fx:id="yorn" />
                            </toggleGroup>

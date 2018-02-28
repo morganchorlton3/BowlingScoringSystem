@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class SetupController{
@@ -54,9 +55,11 @@ public class SetupController{
                 newPlayer.setName(nameInput.getText());
                 newPlayer.setPreference(comboPreference.getValue());
                 newPlayer.setBarriers(getBarriersResult());
+                newPlayer.setScore(1, 100);
                 nameInput.clear();
                 table.getItems().add(newPlayer);
                 playerList.add(newPlayer);
+                break;
             }else {
                 break;
             }

@@ -1,4 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -57,12 +56,9 @@ public class GameController {
     }
     @FXML
     TableView scoreboard;
-    @FXML
-    private TableColumn<Integer, Integer> s1;
-    private int turn = 1;
-    public static final AtomicInteger aioc = new AtomicInteger(0);
+    private static int turn = 1;
+    public final AtomicInteger aioc = new AtomicInteger(0);
     int overallCount = aioc.get();
-    int overalScore = 0;
     @FXML
     private void lane1BtnHandle(ActionEvent event)throws IOException {
         boolean lastGo = false;
@@ -75,93 +71,98 @@ public class GameController {
             System.out.println("Error Game over");
         }
     }
-    private void takeTurn(boolean lastGo){
+    public void takeTurn(boolean lastGo){
         if (lastGo == true){
             System.out.println("Handle last go");
         }
         if (turn == 1) {
-            int score1 = getscore(max);
-            String score1String = String.valueOf(score1);
-            totalScore = totalScore + score1;
-            int score2 = score1;
-            handleSound(score1, score2);
-            lane1score.setText(score1String);
-            lane1score.setVisible(true);
-            max = 10 - score1;
-            lane1BowlBtn.setText("Bowl again");
-            int count = 0;
-            if (score1 == 10) {
-                handleStrike();
-            }
-            while(score1 >= count ){
-                RadioButton button = radios.get(count);
-                if (count == score1) {
-                    break;
-                }else if (button.isSelected() == true){
-                    button.setSelected(false);
-                    count ++;
-                }else if( button.isSelected() == false) {
-                    button.setSelected(false);
-                    System.out.println("Error");
-                    count ++;
-                }
-                else{
-                    break;
-                }
-            }
-            count = 1;
-            int score = score1;
-            keepScore(score, overalScore);
-            turn ++;
+            taketurn1();
         }else if (turn == 2){
-            lane1add.setVisible(true);
-            int score2 = getscore(max);
-            String score2String =String.valueOf(score2);
-            totalScore = totalScore + score2;
-            int score1 = score2;
-            handleSound(score1, score2);
-            lane1score2.setText(score2String);
-            lane1score2.setVisible(true);
-            lane1BowlBtn.setText("Next player");
-            int count2 = 0;
-            for (RadioButton button : radios) {
-                button.setSelected(true);
-            }
-            if (totalScore == 10){
-                handleSpare();
-            }
-            while(totalScore >= count2 | totalScore != 10){
-                RadioButton button = radios.get(count2);
-                if (count2 == totalScore) {
-                    break;
-                }else if (button.isSelected() == true){
-                    button.setSelected(false);
-                    count2 ++;
-                }else if( button.isSelected() == false) {
-                    button.setSelected(false);
-                    count2 ++;
-                }
-            }
-            count2 = 0;
-            int score = score2;
-            keepScore(score, overalScore);
-            turn ++;
-
+            taketurn2();
         }else if (turn == 3){
-            lane1score.setVisible(false);
-            lane1score2.setVisible(false);
-            lane1add.setVisible(false);
-            lane1BowlBtn.setText("Bowl ball");
-            for (RadioButton button : radios) {
-                button.setSelected(true);
-            }
-            overallCount = aioc.incrementAndGet();
-            System.out.println("go: " + overallCount);
-            System.out.println(overalScore);
-            max = 10;
-            turn = 1;
-            totalScore = 0;
+            taketurn3();
         }
+    }
+    public void taketurn1(){
+        int score1 = getscore(max);
+        String score1String = String.valueOf(score1);
+        totalScore = totalScore + score1;
+        int score2 = score1;
+        //handleSound(score1, score2);
+        lane1score.setText(score1String);
+        lane1score.setVisible(true);
+        max = 10 - score1;
+        lane1BowlBtn.setText("Bowl again");
+        int count = 0;
+        if (score1 == 10) {
+            handleStrike();
+        }
+        while(score1 >= count ){
+            RadioButton button = radios.get(count);
+            if (count == score1) {
+                break;
+            }else if (button.isSelected() == true){
+                button.setSelected(false);
+                count ++;
+            }else if( button.isSelected() == false) {
+                button.setSelected(false);
+                System.out.println("Error");
+                count ++;
+            }else{
+                break;
+            }
+        }
+        count = 1;
+        int score = score1;
+        addScoreToTable(score, turn);
+        turn ++;
+    }
+    public void taketurn2(){
+        lane1add.setVisible(true);
+        int score2 = getscore(max);
+        String score2String =String.valueOf(score2);
+        totalScore = totalScore + score2;
+        int score1 = score2;
+        //handleSound(score1, score2);
+        lane1score2.setText(score2String);
+        lane1score2.setVisible(true);
+        lane1BowlBtn.setText("Next player");
+        int count2 = 0;
+        for (RadioButton button : radios) {
+            button.setSelected(true);
+        }
+        if (totalScore == 10){
+            handleSpare();
+        }
+        while(totalScore >= count2 | totalScore != 10){
+            RadioButton button = radios.get(count2);
+            if (count2 == totalScore) {
+                break;
+            }else if (button.isSelected() == true){
+                button.setSelected(false);
+                count2 ++;
+            }else if( button.isSelected() == false) {
+                button.setSelected(false);
+                count2 ++;
+            }
+        }
+        count2 = 0;
+        int score = score2;
+        addScoreToTable(score, turn);
+        turn ++;
+    }
+    public void taketurn3(){
+        lane1score.setVisible(false);
+        lane1score2.setVisible(false);
+        lane1add.setVisible(false);
+        lane1BowlBtn.setText("Bowl ball");
+        for (RadioButton button : radios) {
+            button.setSelected(true);
+        }
+        overallCount = aioc.incrementAndGet();
+        max = 10;
+        turn = 1;
+        totalScore = 0;
     }
     private void handleSound(int score1, int score2){
         try {
@@ -182,7 +183,6 @@ public class GameController {
         }
 
     }
-    /* table view */
     private void handleStrike(){
         message = "Strike";
         alert(message);
@@ -195,8 +195,18 @@ public class GameController {
         turn = 3;
         lane1BowlBtn.setText("Next player");
     }
-    private void keepScore(int score, int overalScore){
-        overalScore = overalScore + score;
+    /*
+    for (Player p : PlayerList) {
+        System.out.println("Player "+p.getName()+" has total score "+p.getTotal());
+    }*/
+    private void addScoreToTable(int score, int turn){
+        if( turn == 1){
+            System.out.println("Turn 1");
+            System.out.println(score);
+        }else if(turn == 2){
+            System.out.println("Turn 2");
+            System.out.println(score);
+        }
     }
     public void initialize() {
         for (RadioButton button : radios) {
@@ -205,18 +215,25 @@ public class GameController {
         }
         for (int i = 0; i < PlayerList.size(); i++) {
             scoreboard.getItems().add(PlayerList.get(i));
+            System.out.println(PlayerList.get(i));
         }
-
     }
     /* Order Food */
     @FXML
     private void orderBtnHandle(ActionEvent event) throws IOException{
-        Stage stage;
-        Parent root;
-        stage = (Stage) orderBtn.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("Order.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        tally();
     }
+    public final AtomicInteger counterai = new AtomicInteger(1);
+    int counter = counterai.get();
+    public void tally(){
+        System.out.println(counter);
+        for (int i = 0; i < PlayerList.size(); i++) {
+            if (PlayerList.get(i).getPlayerID() == counter) {
+                System.out.println(PlayerList.get(i).getPlayerID());
+                System.out.println(PlayerList.get(i));
+                counter = counterai.incrementAndGet();
+            }
+        }
+    }
+
 }
