@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameController {
     /* Universal */
+    public int count = 1;
     public static ArrayList<Player> PlayerList = SetupController.getPlayerList();
     @FXML
     Label alertLabel;
@@ -43,7 +44,7 @@ public class GameController {
     @FXML
     Button lane1BowlBtn,orderBtn;
     @FXML
-    Label lane1score,lane1score2,lane1add;
+    Label lane1score,lane1score2,lane1add, playerName;
     @FXML
     RadioButton lane1Pin1, lane1Pin2, lane1Pin3, lane1Pin4, lane1Pin5, lane1Pin6, lane1Pin7, lane1Pin8, lane1Pin9,lane1Pin10;
     @FXML
@@ -61,20 +62,9 @@ public class GameController {
     int overallCount = aioc.get();
     @FXML
     private void lane1BtnHandle(ActionEvent event)throws IOException {
-        boolean lastGo = false;
-        if (overallCount <= 9){
-            takeTurn(lastGo);
-        }else if (overallCount == 10){
-            lastGo = true;
-            takeTurn(lastGo);
-        }else if (overallCount > 10){
-            System.out.println("Error Game over");
-        }
+        takeTurn();
     }
-    public void takeTurn(boolean lastGo){
-        if (lastGo == true){
-            System.out.println("Handle last go");
-        }
+    public void takeTurn(){
         if (turn == 1) {
             taketurn1();
         }else if (turn == 2){
@@ -112,9 +102,7 @@ public class GameController {
                 break;
             }
         }
-        count = 1;
         int score = score1;
-        addScoreToTable(score, turn);
         turn ++;
     }
     public void taketurn2(){
@@ -146,9 +134,7 @@ public class GameController {
                 count2 ++;
             }
         }
-        count2 = 0;
         int score = score2;
-        addScoreToTable(score, turn);
         turn ++;
     }
     public void taketurn3(){
@@ -163,6 +149,12 @@ public class GameController {
         max = 10;
         turn = 1;
         totalScore = 0;
+        if (PlayerList.size() <= count){
+            count=1;
+        }else{
+            selectPlayer(count);
+            count++;
+        }
     }
     private void handleSound(int score1, int score2){
         try {
@@ -195,45 +187,39 @@ public class GameController {
         turn = 3;
         lane1BowlBtn.setText("Next player");
     }
-    /*
-    for (Player p : PlayerList) {
-        System.out.println("Player "+p.getName()+" has total score "+p.getTotal());
-    }*/
-    private void addScoreToTable(int score, int turn){
-        if( turn == 1){
-            System.out.println("Turn 1");
-            System.out.println(score);
-        }else if(turn == 2){
-            System.out.println("Turn 2");
-            System.out.println(score);
-        }
-    }
     public void initialize() {
         for (RadioButton button : radios) {
             button.setDisable(true);
             button.setOpacity(1);
         }
+        loadPlayers();
+        selectPlayer(0);
+        count++;
+    }
+    public void loadPlayers(){
         for (int i = 0; i < PlayerList.size(); i++) {
             scoreboard.getItems().add(PlayerList.get(i));
-            System.out.println(PlayerList.get(i));
+            Player activePlayer = PlayerList.get(i);
+            int id = activePlayer.getPlayerID();
+        }
+        selectPlayer(1);
+    }
+    public void selectPlayer(int count){
+        int size = PlayerList.size();
+        System.out.println("Size =  " + size + " + Count = " + count );
+        if (count <= size) {
+            Player activePlayer = PlayerList.get(count);
+            playerName.setVisible(true);
+            String name = activePlayer.getName();
+            playerName.setText(name);
+        }else if(count == size){
+            count=0;
+            selectPlayer(count);
         }
     }
     /* Order Food */
     @FXML
     private void orderBtnHandle(ActionEvent event) throws IOException{
-        tally();
+        selectPlayer(count);
     }
-    public final AtomicInteger counterai = new AtomicInteger(1);
-    int counter = counterai.get();
-    public void tally(){
-        System.out.println(counter);
-        for (int i = 0; i < PlayerList.size(); i++) {
-            if (PlayerList.get(i).getPlayerID() == counter) {
-                System.out.println(PlayerList.get(i).getPlayerID());
-                System.out.println(PlayerList.get(i));
-                counter = counterai.incrementAndGet();
-            }
-        }
-    }
-
 }

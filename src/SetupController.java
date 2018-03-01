@@ -55,7 +55,6 @@ public class SetupController{
                 newPlayer.setName(nameInput.getText());
                 newPlayer.setPreference(comboPreference.getValue());
                 newPlayer.setBarriers(getBarriersResult());
-                newPlayer.setScore(1, 100);
                 nameInput.clear();
                 table.getItems().add(newPlayer);
                 playerList.add(newPlayer);
@@ -101,7 +100,7 @@ public class SetupController{
                 stage.setResizable(false);
                 stage.setWidth(1400);
 
-            } else if (option.get() == ButtonType.CANCEL) {
+            }else if (option.get() == ButtonType.CANCEL) {
                 confirmAlert.close();
             }
         }

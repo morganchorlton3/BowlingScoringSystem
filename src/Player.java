@@ -69,7 +69,8 @@ public class Player {
                 "id='" + playerID + '\'' +
                 "Name='" + name + '\'' +
                 ", Preference='" + preference + '\'' +
-                ", barrires=" + barriers +
+                ", barrires=" + barriers + '\'' +
+                ", Total =" + total +
                 '}';
     }
 }
