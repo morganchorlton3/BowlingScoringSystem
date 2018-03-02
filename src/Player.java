@@ -17,7 +17,7 @@ public class Player {
         this.scores = new int[11] ;
     }
 
-    public Player( int playerID, String Name, String preference, String barriers,  int total) {
+    public Player( int playerID, String Name, String preference, String barriers) {
         this.playerID = playerID;
         this.name = Name;
         this.preference = preference;
@@ -61,8 +61,6 @@ public class Player {
     public int getTotal() {
         return total ;
     }
-
-
     @Override
     public String toString () {
         return "Player{" +

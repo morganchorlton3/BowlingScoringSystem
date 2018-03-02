@@ -2,11 +2,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.sound.sampled.AudioInputStream;
@@ -18,10 +14,14 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameController {
-    /* Universal */
+    //Variables
+    int round = 0;
     public int count = 1;
     public static ArrayList<Player> PlayerList = SetupController.getPlayerList();
     int totalScore = 0;
+    private static int turn = 1;
+    private int max = 10;
+    //JFX initialization
     @FXML
     Label alertLabel;
 
@@ -34,7 +34,6 @@ public class GameController {
         timeline.play();
 
     }
-    private int max = 10;
     private static int getscore(int max) {
         Random rand = new Random();
         int  randomnum = rand.nextInt(max) + 0;
@@ -58,9 +57,6 @@ public class GameController {
     }
     @FXML
     TableView scoreboard;
-    private static int turn = 1;
-    public final AtomicInteger aioc = new AtomicInteger(0);
-    int overallCount = aioc.get();
     @FXML
     private void lane1BtnHandle(ActionEvent event)throws IOException {
         takeTurn();
@@ -147,16 +143,17 @@ public class GameController {
         for (RadioButton button : radios) {
             button.setSelected(true);
         }
-        overallCount = aioc.incrementAndGet();
+        int size = PlayerList.size();
+        if (count == size){
+            count = 0;
+            selectPlayer(count);
+        }else if(count <= size){
+            selectPlayer(count);
+        }
+        count++;
         max = 10;
         turn = 1;
         totalScore = 0;
-        if (PlayerList.size() <= count){
-            count=1;
-        }else{
-            selectPlayer(count);
-            count++;
-        }
     }
     private void handleSound(int score1, int score2){
         try {
@@ -198,35 +195,17 @@ public class GameController {
             scoreboard.getItems().add(PlayerList.get(i));
         }
         selectPlayer(0);
-        count++;
     }
     public void selectPlayer(int count){
-        int size = PlayerList.size();
-        System.out.println("Size =  " + size + " + Count = " + count );
-        if (count <= size) {
-            Player activePlayer = PlayerList.get(count);
-            playerName.setVisible(true);
-            String name = activePlayer.getName();
-            playerName.setText(name);
-            int total = 0;
-            int i = 0;
-            for (i = 0; i < roundScore.size(); i++) {
-                total += roundScore.get(i);
-            }
-            roundScore.clear();
-            activePlayer.setScore(1, total);
-        }else if(count == size){
-            count=0;
-            selectPlayer(count);
-        }
+        Player activePlayer = PlayerList.get(count);
+        playerName.setVisible(true);
+        String name = activePlayer.getName();
+        playerName.setText(name);
     }
     /* Order Food */
     @FXML
     private void orderBtnHandle(ActionEvent event) throws IOException{
-        for (int i = 0; i < PlayerList.size(); i++) {
-            Player activePlayer = PlayerList.get(i);
-            activePlayer.getScore(1);
-            System.out.println(activePlayer);
-        }
+        int size = PlayerList.size();
+        System.out.println("Size =  " + size + " + Count = " + count );
     }
 }
