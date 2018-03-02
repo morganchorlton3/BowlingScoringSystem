@@ -21,6 +21,7 @@ public class GameController {
     /* Universal */
     public int count = 1;
     public static ArrayList<Player> PlayerList = SetupController.getPlayerList();
+    int totalScore = 0;
     @FXML
     Label alertLabel;
 
@@ -40,7 +41,7 @@ public class GameController {
         return randomnum;
     }
     /* Lane 1 */
-    private int totalScore = 0;
+    public ArrayList<Integer> roundScore = new ArrayList<>();
     @FXML
     Button lane1BowlBtn,orderBtn;
     @FXML
@@ -76,8 +77,8 @@ public class GameController {
     public void taketurn1(){
         int score1 = getscore(max);
         String score1String = String.valueOf(score1);
+        roundScore.add(score1);
         totalScore = totalScore + score1;
-        int score2 = score1;
         //handleSound(score1, score2);
         lane1score.setText(score1String);
         lane1score.setVisible(true);
@@ -109,6 +110,7 @@ public class GameController {
         lane1add.setVisible(true);
         int score2 = getscore(max);
         String score2String =String.valueOf(score2);
+        roundScore.add(score2);
         totalScore = totalScore + score2;
         int score1 = score2;
         //handleSound(score1, score2);
@@ -192,17 +194,11 @@ public class GameController {
             button.setDisable(true);
             button.setOpacity(1);
         }
-        loadPlayers();
-        selectPlayer(0);
-        count++;
-    }
-    public void loadPlayers(){
         for (int i = 0; i < PlayerList.size(); i++) {
             scoreboard.getItems().add(PlayerList.get(i));
-            Player activePlayer = PlayerList.get(i);
-            int id = activePlayer.getPlayerID();
         }
-        selectPlayer(1);
+        selectPlayer(0);
+        count++;
     }
     public void selectPlayer(int count){
         int size = PlayerList.size();
@@ -212,6 +208,13 @@ public class GameController {
             playerName.setVisible(true);
             String name = activePlayer.getName();
             playerName.setText(name);
+            int total = 0;
+            int i = 0;
+            for (i = 0; i < roundScore.size(); i++) {
+                total += roundScore.get(i);
+            }
+            roundScore.clear();
+            activePlayer.setScore(1, total);
         }else if(count == size){
             count=0;
             selectPlayer(count);
@@ -220,6 +223,10 @@ public class GameController {
     /* Order Food */
     @FXML
     private void orderBtnHandle(ActionEvent event) throws IOException{
-        selectPlayer(count);
+        for (int i = 0; i < PlayerList.size(); i++) {
+            Player activePlayer = PlayerList.get(i);
+            activePlayer.getScore(1);
+            System.out.println(activePlayer);
+        }
     }
 }
