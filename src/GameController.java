@@ -15,12 +15,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameController {
     //Variables
-    int round = 0;
-    public int count = 1;
+    private int round = 1;
+    private int count = 0;
     public static ArrayList<Player> PlayerList = SetupController.getPlayerList();
-    int totalScore = 0;
-    private static int turn = 1;
+    private int totalScore = 0;
+    private static int turn = 0;
     private int max = 10;
+    private int score1 = 0;
+    private int score2 = 0;
+    private int score3 = 0;
     //JFX initialization
     @FXML
     Label alertLabel;
@@ -44,7 +47,7 @@ public class GameController {
     @FXML
     Button lane1BowlBtn,orderBtn;
     @FXML
-    Label lane1score,lane1score2,lane1add, playerName;
+    Label lane1score,lane1score2,lane1add, playerName,playerLabel;
     @FXML
     RadioButton lane1Pin1, lane1Pin2, lane1Pin3, lane1Pin4, lane1Pin5, lane1Pin6, lane1Pin7, lane1Pin8, lane1Pin9,lane1Pin10;
     @FXML
@@ -59,22 +62,39 @@ public class GameController {
     TableView scoreboard;
     @FXML
     private void lane1BtnHandle(ActionEvent event)throws IOException {
-        takeTurn();
-    }
-    public void takeTurn(){
-        if (turn == 1) {
-            taketurn1();
-        }else if (turn == 2){
-            taketurn2();
-        }else if (turn == 3){
-            taketurn3();
+        while(round < 10){
+            if (turn == 0){
+                lane1BowlBtn.setText("Bowl ball");
+                Player activePlayer = PlayerList.get(0);
+                playerLabel.setVisible(true);
+                playerName.setVisible(true);
+                String name = activePlayer.getName();
+                playerName.setText(name);
+                turn = 1;
+            }else if (turn == 1) {
+                takeTurn1();
+                break;
+            }else if (turn == 2){
+                takeTurn2();
+                break;
+            }else if (turn == 3){
+                takeTurn3();
+                break;
+            }
+        }
+        if (turn == 4){
+            takeLastTurn();
+        }else if (turn == 5){
+            takeLastTurn2();
+        }else if(turn == 6){
+            takeLastTurn3();
+        }else if (turn == 7){
+            System.out.println("Game Over");
         }
     }
-    public void taketurn1(){
-        int score1 = getscore(max);
+    private void takeTurn1(){
+        score1 = getscore(max);
         String score1String = String.valueOf(score1);
-        roundScore.add(score1);
-        totalScore = totalScore + score1;
         //handleSound(score1, score2);
         lane1score.setText(score1String);
         lane1score.setVisible(true);
@@ -95,20 +115,14 @@ public class GameController {
                 button.setSelected(false);
                 System.out.println("Error");
                 count ++;
-            }else{
-                break;
             }
         }
-        int score = score1;
-        turn ++;
+        turn++;
     }
-    public void taketurn2(){
-        lane1add.setVisible(true);
-        int score2 = getscore(max);
+    private void takeTurn2(){
+        score2 = getscore(max);
         String score2String =String.valueOf(score2);
-        roundScore.add(score2);
-        totalScore = totalScore + score2;
-        int score1 = score2;
+        lane1add.setVisible(true);
         //handleSound(score1, score2);
         lane1score2.setText(score2String);
         lane1score2.setVisible(true);
@@ -132,10 +146,9 @@ public class GameController {
                 count2 ++;
             }
         }
-        int score = score2;
         turn ++;
     }
-    public void taketurn3(){
+    private void takeTurn3(){
         lane1score.setVisible(false);
         lane1score2.setVisible(false);
         lane1add.setVisible(false);
@@ -146,14 +159,62 @@ public class GameController {
         int size = PlayerList.size();
         if (count == size){
             count = 0;
+            handleScore(round, score1, score2);
             selectPlayer(count);
+            round++;
         }else if(count <= size){
+            handleScore(round, score1, score2);
             selectPlayer(count);
         }
+        updateScoreboard();
         count++;
         max = 10;
         turn = 1;
-        totalScore = 0;
+        totalScore=0;
+        score1 = 0;
+        score2 = 0;
+        if(round == 10){
+            turn =4;
+        }
+    }
+    public void takeLastTurn(){
+        score1 = getscore(max);
+        String score1String = String.valueOf(score1);
+        lane1score.setText(score1String);
+        lane1score.setVisible(true);
+        max = 10 - score1;
+        lane1BowlBtn.setText("Bowl again");
+    }
+    public void takeLastTurn2(){
+        score2 = getscore(max);
+        String score2String =String.valueOf(score2);
+        lane1add.setVisible(true);
+        //handleSound(score1, score2);
+        lane1score2.setText(score2String);
+        lane1score2.setVisible(true);
+        if(score1+score2 == 10){
+            lane1BowlBtn.setText("Bowl again");
+            turn=6;
+        }
+        turn=7;
+    }
+    public void takeLastTurn3(){
+        score3 = getscore(10);
+        String score2String =String.valueOf(score2);
+        lane1add.setVisible(true);
+        //handleSound(score1, score2);
+        lane1score2.setText(score2String);
+        lane1score2.setVisible(true);
+        handleFinalTotal(score3);
+    }
+    private void handleScore(int round, int score1, int score2){
+        Player activePlayer = PlayerList.get(count);
+        activePlayer.setScore(round, score1, score2);
+        System.out.println(activePlayer);
+    }
+    private void handleFinalTotal(int score3){
+        Player activePlayer = PlayerList.get(count);
+        activePlayer.setScore(10, score3, 0);
     }
     private void handleSound(int score1, int score2){
         try {
@@ -187,6 +248,7 @@ public class GameController {
         lane1BowlBtn.setText("Next player");
     }
     public void initialize() {
+        lane1BowlBtn.setText("Start Game");
         for (RadioButton button : radios) {
             button.setDisable(true);
             button.setOpacity(1);
@@ -194,13 +256,19 @@ public class GameController {
         for (int i = 0; i < PlayerList.size(); i++) {
             scoreboard.getItems().add(PlayerList.get(i));
         }
-        selectPlayer(0);
     }
     public void selectPlayer(int count){
         Player activePlayer = PlayerList.get(count);
+        playerLabel.setVisible(true);
         playerName.setVisible(true);
         String name = activePlayer.getName();
         playerName.setText(name);
+    }
+    public void updateScoreboard(){
+        scoreboard.getItems().clear();
+        for (int i = 0; i < PlayerList.size(); i++) {
+            scoreboard.getItems().add(PlayerList.get(i));
+        }
     }
     /* Order Food */
     @FXML

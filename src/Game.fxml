@@ -45,7 +45,7 @@
                <children>
                   <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="100.0">
                      <children>
-                        <Label text="Player: " textAlignment="CENTER">
+                        <Label fx:id="playerLabel" text="Player: " textAlignment="CENTER" visible="false">
                            <font>
                               <Font size="36.0" />
                            </font>
@@ -141,52 +141,52 @@
                 </TableColumn>
                 <TableColumn fx:id="s1" prefWidth="70.0" resizable="false" text="1">
                   <cellValueFactory>
-                      <PropertyValueFactory property="s1" />
+                      <PropertyValueFactory property="getScore(1)" />
                   </cellValueFactory>
                 </TableColumn>
                   <TableColumn fx:id="s2" prefWidth="70.0" resizable="false" text="2">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s2" />
+                          <PropertyValueFactory property="getScore(2)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="s3" prefWidth="70.0" resizable="false" text="3">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s3" />
+                          <PropertyValueFactory property="getScore(3)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="s4" prefWidth="70.0" resizable="false" text="4">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s4" />
+                          <PropertyValueFactory property="getScore(4)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="s5" prefWidth="70.0" resizable="false" text="5">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s5" />
+                          <PropertyValueFactory property="getScore(5)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="s6" prefWidth="70.0" resizable="false" text="6">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s6" />
+                          <PropertyValueFactory property="getScore(6)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="s7" prefWidth="70.0" resizable="false" text="7">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s7" />
+                          <PropertyValueFactory property="getScore(7)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="s8" prefWidth="70.0" resizable="false" text="8">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s8" />
+                          <PropertyValueFactory property="getScore(8)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="s9" prefWidth="70.0" resizable="false" text="9">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s9" />
+                          <PropertyValueFactory property="getScore(9)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="s10" prefWidth="70.0" resizable="false" text="10">
                       <cellValueFactory>
-                          <PropertyValueFactory property="s10" />
+                          <PropertyValueFactory property="getScore(10)" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="totalCol" prefWidth="85.0" resizable="false" text="Total">

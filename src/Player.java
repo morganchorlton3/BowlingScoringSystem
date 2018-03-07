@@ -4,9 +4,11 @@ public class Player {
     public static final AtomicInteger id = new AtomicInteger(0);
     public int playerID;
     public String name;
+    public String scoreString;
     private String preference;
     private String barriers;
-    private int[] scores ;
+    private String[] scores ;
+    private int roundtotal;
     private int total ;
 
     public Player(){
@@ -14,7 +16,7 @@ public class Player {
         this.name = "";
         this.preference = "Left";
         this.barriers = "Yes";
-        this.scores = new int[11] ;
+        this.scores = new String[11] ;
     }
 
     public Player( int playerID, String Name, String preference, String barriers) {
@@ -22,7 +24,7 @@ public class Player {
         this.name = Name;
         this.preference = preference;
         this.barriers = barriers;
-        this.scores = new int[11] ;
+        this.scores = new String[11] ;
 
     }
     public int getPlayerID(){ return playerID; }
@@ -38,8 +40,8 @@ public class Player {
         return preference;
     }
 
-    public void setPreference(String prefrence) {
-        this.preference = prefrence;
+    public void setPreference(String preference) {
+        this.preference = preference;
     }
 
     public String getBarriers() {
@@ -50,16 +52,21 @@ public class Player {
         this.barriers = barriers;
     }
 
-    public void setScore(int turn, int score) {
-        int change = score - scores[turn] ;
-        scores[turn] = score ;
-        total = total + change ;
+    public void setScore(int turn, int score1, int score2) {
+        String scoreString = score1 + "/" + score2;
+        System.out.println(scoreString);
+        roundtotal = score1 + score2;
+        total = total + roundtotal;
+        scores[turn] = scoreString;
     }
-    public int getScore(int whichScore) {
+    public String getScore(int whichScore) {
         return scores[whichScore] ;
     }
     public int getTotal() {
         return total ;
+    }
+    public String getScoreString(){
+        return scoreString;
     }
     @Override
     public String toString () {
@@ -68,6 +75,16 @@ public class Player {
                 "Name='" + name + '\'' +
                 ", Preference='" + preference + '\'' +
                 ", barrires=" + barriers + '\'' +
+                ", S1=" + getScore(1) + '\'' +
+                ", S2=" + getScore(2) + '\'' +
+                ", S3=" + getScore(3) + '\'' +
+                ", S4=" + getScore(4) + '\'' +
+                ", S5=" + getScore(5) + '\'' +
+                ", S6=" + getScore(6) + '\'' +
+                ", S7=" + getScore(7) + '\'' +
+                ", S8=" + getScore(8) + '\'' +
+                ", S9=" + getScore(9) + '\'' +
+                ", S10=" + getScore(10) + '\'' +
                 ", Total =" + total +
                 '}';
     }
