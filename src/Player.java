@@ -52,18 +52,27 @@ public class Player {
         this.barriers = barriers;
     }
 
-    public void setScore(int turn, int score1, int score2) {
+    public void setScore(int round, int score1, int score2) {
         String scoreString = score1 + "/" + score2;
+        setScoreString(scoreString);
         System.out.println(scoreString);
         roundtotal = score1 + score2;
         total = total + roundtotal;
-        scores[turn] = scoreString;
+        if(score1 == 10){
+            scoreString = "X";
+        }else if (roundtotal == 10){
+            scoreString = "/";
+        }
+        scores[round] = scoreString;
     }
     public String getScore(int whichScore) {
         return scores[whichScore] ;
     }
     public int getTotal() {
         return total ;
+    }
+    public void setScoreString(String scoreString){
+        this.scoreString = scoreString;
     }
     public String getScoreString(){
         return scoreString;

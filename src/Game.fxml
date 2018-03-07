@@ -139,54 +139,54 @@
                       <PropertyValueFactory property="name" />
                   </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="s1" prefWidth="70.0" resizable="false" text="1">
-                  <cellValueFactory>
-                      <PropertyValueFactory property="getScore(1)" />
-                  </cellValueFactory>
+                <TableColumn fx:id="scores1col" prefWidth="70.0" resizable="false" text="1">
+                    <cellValueFactory>
+                        <PropertyValueFactory property=""/>
+                    </cellValueFactory>
                 </TableColumn>
-                  <TableColumn fx:id="s2" prefWidth="70.0" resizable="false" text="2">
+                  <TableColumn fx:id="scores2col" prefWidth="70.0" resizable="false" text="2">
                       <cellValueFactory>
-                          <PropertyValueFactory property="getScore(2)" />
+                          <PropertyValueFactory property="" />
                       </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="s3" prefWidth="70.0" resizable="false" text="3">
+                  <TableColumn fx:id="scores3col" prefWidth="70.0" resizable="false" text="3">
                       <cellValueFactory>
-                          <PropertyValueFactory property="getScore(3)" />
+                          <PropertyValueFactory property="" />
                       </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="s4" prefWidth="70.0" resizable="false" text="4">
+                  <TableColumn fx:id="scores4col" prefWidth="70.0" resizable="false" text="4">
                       <cellValueFactory>
-                          <PropertyValueFactory property="getScore(4)" />
+                          <PropertyValueFactory property="" />
                       </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="s5" prefWidth="70.0" resizable="false" text="5">
+                  <TableColumn fx:id="scores5col" prefWidth="70.0" resizable="false" text="5">
                       <cellValueFactory>
-                          <PropertyValueFactory property="getScore(5)" />
+                          <PropertyValueFactory property="" />
                       </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="s6" prefWidth="70.0" resizable="false" text="6">
+                  <TableColumn fx:id="scores6col" prefWidth="70.0" resizable="false" text="6">
                       <cellValueFactory>
                           <PropertyValueFactory property="getScore(6)" />
                       </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="s7" prefWidth="70.0" resizable="false" text="7">
+                  <TableColumn fx:id="scores7col" prefWidth="70.0" resizable="false" text="7">
                       <cellValueFactory>
                           <PropertyValueFactory property="getScore(7)" />
                       </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="s8" prefWidth="70.0" resizable="false" text="8">
+                  <TableColumn fx:id="scores8col" prefWidth="70.0" resizable="false" text="8">
                       <cellValueFactory>
                           <PropertyValueFactory property="getScore(8)" />
                       </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="s9" prefWidth="70.0" resizable="false" text="9">
+                  <TableColumn fx:id="scores9col" prefWidth="70.0" resizable="false" text="9">
                       <cellValueFactory>
                           <PropertyValueFactory property="getScore(9)" />
                       </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="s10" prefWidth="70.0" resizable="false" text="10">
+                  <TableColumn fx:id="scores10col" prefWidth="70.0" resizable="false" text="10">
                       <cellValueFactory>
-                          <PropertyValueFactory property="getScore(10)" />
+                          <PropertyValueFactory property="" />
                       </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="totalCol" prefWidth="85.0" resizable="false" text="Total">
