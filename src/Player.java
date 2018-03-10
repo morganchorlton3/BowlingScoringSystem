@@ -4,7 +4,6 @@ public class Player {
     public static final AtomicInteger id = new AtomicInteger(0);
     public int playerID;
     public String name;
-    public String scoreString;
     private String preference;
     private String barriers;
     private String[] scores ;
@@ -54,8 +53,6 @@ public class Player {
 
     public void setScore(int round, int score1, int score2) {
         String scoreString = score1 + "/" + score2;
-        setScoreString(scoreString);
-        System.out.println(scoreString);
         roundtotal = score1 + score2;
         total = total + roundtotal;
         if(score1 == 10){
@@ -70,12 +67,6 @@ public class Player {
     }
     public int getTotal() {
         return total ;
-    }
-    public void setScoreString(String scoreString){
-        this.scoreString = scoreString;
-    }
-    public String getScoreString(){
-        return scoreString;
     }
     @Override
     public String toString () {
