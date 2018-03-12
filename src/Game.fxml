@@ -68,19 +68,33 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lane1score" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Score" textAlignment="CENTER" visible="false">
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="100.0">
+                     <children>
+                        <Label fx:id="lane1score" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Score" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lane1add" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="/" visible="false">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lane1score2" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Score2" visible="false">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <Label fx:id="lane1score3" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Score3" visible="false">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lane1add" alignment="CENTER" maxWidth="1.7976931348623157E308" text="+" visible="false">
-                     <font>
-                        <Font size="24.0" />
-                     </font></Label>
-                  <Label fx:id="lane1score2" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Score2" visible="false">
-                     <font>
-                        <Font size="36.0" />
-                     </font></Label>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -141,7 +155,7 @@
                 </TableColumn>
                 <TableColumn fx:id="scores1col" prefWidth="70.0" resizable="false" text="1">
                     <cellValueFactory>
-                        <PropertyValueFactory property=""/>
+                        <PropertyValueFactory property="" />
                     </cellValueFactory>
                 </TableColumn>
                   <TableColumn fx:id="scores2col" prefWidth="70.0" resizable="false" text="2">
@@ -199,11 +213,17 @@
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </GridPane.margin>
             </TableView>
-            <Label fx:id="alertLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Label" visible="false" GridPane.columnIndex="1">
+            <Label id="alertLabel" fx:id="alertLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="alertLabel" visible="false" GridPane.columnIndex="1">
                <font>
                   <Font size="48.0" />
                </font>
             </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <Button fx:id="strikeBtn" mnemonicParsing="false" onAction="#strikeBtnHandle" text="Simulate Strike" />
+                  <Button fx:id="spareBtn" mnemonicParsing="false" onAction="#spareBtnHandle" text="Simulate Spare" />
+               </children>
+            </HBox>
          </children>
       </GridPane>
       <Button fx:id="orderBtn" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#orderBtnHandle" text="Catering service" GridPane.rowIndex="1">

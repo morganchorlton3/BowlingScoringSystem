@@ -52,13 +52,15 @@ public class Player {
     }
 
     public void setScore(int round, int score1, int score2) {
-        String scoreString = score1 + "/" + score2;
+        String scoreString;
         roundtotal = score1 + score2;
         total = total + roundtotal;
         if(score1 == 10){
             scoreString = "X";
         }else if (roundtotal == 10){
             scoreString = "/";
+        }else {
+            scoreString = score1 + "/" + score2;
         }
         scores[round] = scoreString;
     }

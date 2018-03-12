@@ -39,7 +39,7 @@ public class SetupController{
     private TableColumn<String, String> nameCol;
     @FXML
     private String message;
-    private void alert(String mesage){
+    private void alert(String message){
         alertLabel.setText(message);
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), evt -> alertLabel.setVisible(false)),
                 new KeyFrame(Duration.seconds( 0.1), evt -> alertLabel.setVisible(true)));
@@ -67,7 +67,7 @@ public class SetupController{
     public static ArrayList<Player> getPlayerList() {
         return playerList;
     }
-
+    // Is being used but the PlayerList
     public void setPlayerList(ArrayList<Player> playerList) {
         this.playerList = playerList;
     }
@@ -78,6 +78,7 @@ public class SetupController{
         productSelected = table.getSelectionModel().getSelectedItems();
 
         productSelected.forEach(allPlayers::remove);
+        System.out.println(productSelected);
     }
     @FXML
     private void startBtnHandle(ActionEvent event)throws IOException {
@@ -137,7 +138,7 @@ public class SetupController{
         int playerList = table.getItems().size();
 
         if (playerList == MAX_Players){
-            message = "You have reached the maximum ammount of players for one game.";
+            message = "You have reached the maximum amount of players for one game.";
             alert(message);
             return false;
         }else{
@@ -145,6 +146,15 @@ public class SetupController{
         }
     }
     public boolean checkName(String nameInput){
+        for (int i = 0; i < playerList.size(); i++) {
+            Player activeplayer = playerList.get(i);
+            if (activeplayer.getName().toLowerCase().equals(nameInput.toLowerCase())){
+                message = "That player already exists ";
+                alert(message);
+                return false;
+
+            }
+        }
         if (nameInput.equals("")){
             message = "The player name can't be blank";
             alert(message);
@@ -153,8 +163,7 @@ public class SetupController{
             message = "The player name can't be longer than 22 characters";
             alert(message);
             return false;
-        }
-        else{
+        }else{
             return true;
         }
     }
