@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import java.util.ArrayList?>
-<GridPane stylesheets="@Dark-Theme.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameController">
+<GridPane stylesheets="@Dark-Theme.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Lane1Controller">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>

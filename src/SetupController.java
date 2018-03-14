@@ -10,12 +10,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class SetupController{
@@ -26,7 +23,7 @@ public class SetupController{
     @FXML
     Label alertLabel;
     @FXML
-    Button addButton, delButton;
+    Button addButton, delButton, startLane1Btn, startLane2Btn;
     @FXML
     TableView table;
     @FXML
@@ -80,7 +77,7 @@ public class SetupController{
         productSelected.forEach(allPlayers::remove);
     }
     @FXML
-    private void startBtnHandle(ActionEvent event)throws IOException {
+    private void startLane1BtnHandle(ActionEvent event)throws IOException {
         if (checkMinPlayers(table) == true) {
             int playerList = table.getItems().size();
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -90,17 +87,37 @@ public class SetupController{
             if (option.get() == ButtonType.OK) {
                 String playerName = nameCol.toString().split(",")[0].substring(1);
                 System.out.println(playerName);
-                Stage orderStage = new Stage();
-                Parent root;
-                orderStage = (Stage) addButton.getScene().getWindow();
-                root = FXMLLoader.load(getClass().getResource("Game.fxml"));
-                Scene scene = new Scene(root);
-                orderStage.setScene(scene);
-                orderStage.show();
-                orderStage.setTitle("Bowling Game");
-                orderStage.setResizable(false);
-                orderStage.setWidth(1400);
-
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Lane2.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage lane1Stage = new Stage();
+                lane1Stage.setTitle("Bowling Game, Lane 1");
+                lane1Stage.setWidth(1400);
+                lane1Stage.setResizable(false);
+                lane1Stage.setScene(new Scene(root1));
+                lane1Stage.show();
+                startLane1Btn.setDisable(true);
+            }else if (option.get() == ButtonType.CANCEL) {
+                confirmAlert.close();
+            }
+        }
+    }
+    public void startLane2BtnHandle(ActionEvent event)throws IOException {
+        if (checkMinPlayers(table) == true) {
+            int playerList = table.getItems().size();
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setHeaderText("Are you sure you want to start the game?");
+            confirmAlert.setContentText("You have added " + playerList + " players to the game is this correct?");
+            Optional<ButtonType> option = confirmAlert.showAndWait();
+            if (option.get() == ButtonType.OK) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Lane2.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage lane2Stage = new Stage();
+                lane2Stage.setTitle("Bowling Game, Lane 2");
+                lane2Stage.setWidth(1400);
+                lane2Stage.setResizable(false);
+                lane2Stage.setScene(new Scene(root1));
+                lane2Stage.show();
+                startLane2Btn.setDisable(true);
             }else if (option.get() == ButtonType.CANCEL) {
                 confirmAlert.close();
             }

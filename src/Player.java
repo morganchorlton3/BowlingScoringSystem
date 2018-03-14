@@ -76,7 +76,7 @@ public class Player {
                 "id='" + playerID + '\'' +
                 "Name='" + name + '\'' +
                 ", Preference='" + preference + '\'' +
-                ", barrires=" + barriers + '\'' +
+                ", barriers=" + barriers + '\'' +
                 ", S1=" + getScore(1) + '\'' +
                 ", S2=" + getScore(2) + '\'' +
                 ", S3=" + getScore(3) + '\'' +

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import java.util.ArrayList?>
+<GridPane stylesheets="@Dark-Theme.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Lane2Controller">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <GridPane stylesheets="@Dark-Theme.css">
+            <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="100.0" />
+                <RowConstraints minHeight="10.0" prefHeight="380.0" />
+                <RowConstraints minHeight="10.0" prefHeight="100.0" />
+            </rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints minWidth="400.0" prefWidth="400.0" />
+                <ColumnConstraints minWidth="400.0" prefWidth="1000.0" />
+            </columnConstraints>
+            <children>
+                <JFXButton fx:id="lane2BowlBtn" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#lane2BtnHandle" text="Bowl ball" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                        <Insets left="30.0" right="30.0" />
+                    </GridPane.margin>
+                </JFXButton>
+                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <children>
+                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="100.0">
+                            <children>
+                                <Label fx:id="playerLabel" text="Player: " textAlignment="CENTER" visible="false">
+                                    <font>
+                                        <Font size="36.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <Label fx:id="playerName" text="Player Name" textAlignment="CENTER" visible="false">
+                                    <font>
+                                        <Font size="36.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Scored:">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Label>
+                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="100.0">
+                            <children>
+                                <Label fx:id="lane2score" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Score" textAlignment="CENTER" visible="false">
+                                    <font>
+                                        <Font size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="lane2add" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="/" visible="false">
+                                    <font>
+                                        <Font size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="lane2score2" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Score2" visible="false">
+                                    <font>
+                                        <Font size="36.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </HBox>
+                        <Label fx:id="lane2score3" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Score3" visible="false">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Label>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <RadioButton fx:id="lane2Pin1" mnemonicParsing="false" selected="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <RadioButton fx:id="lane2Pin2" mnemonicParsing="false" selected="true" />
+                                        <RadioButton fx:id="lane2Pin3" mnemonicParsing="false" selected="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <RadioButton fx:id="lane2Pin4" mnemonicParsing="false" selected="true" />
+                                        <RadioButton fx:id="lane2Pin5" mnemonicParsing="false" selected="true" />
+                                        <RadioButton fx:id="lane2Pin6" mnemonicParsing="false" selected="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="100.0">
+                                    <children>
+                                        <RadioButton fx:id="lane2Pin7" mnemonicParsing="false" selected="true" />
+                                        <RadioButton fx:id="lane2Pin8" mnemonicParsing="false" selected="true" />
+                                        <RadioButton fx:id="lane2Pin9" mnemonicParsing="false" selected="true" />
+                                        <RadioButton fx:id="lane2Pin10" mnemonicParsing="false" selected="true" />
+                                    </children>
+                                </HBox>
+                            </children>
+                            <fx:define>
+                                <ArrayList fx:id="radios">
+                                    <fx:reference source="lane2Pin1" />
+                                    <fx:reference source="lane2Pin2" />
+                                    <fx:reference source="lane2Pin3" />
+                                    <fx:reference source="lane2Pin4" />
+                                    <fx:reference source="lane2Pin5" />
+                                    <fx:reference source="lane2Pin6" />
+                                    <fx:reference source="lane2Pin7" />
+                                    <fx:reference source="lane2Pin8" />
+                                    <fx:reference source="lane2Pin9" />
+                                    <fx:reference source="lane2Pin10" />
+                                </ArrayList>
+                            </fx:define>
+                        </VBox>
+                    </children>
+                </VBox>
+                <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Lane 2" textAlignment="CENTER">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+                <TableView fx:id="scoreboard" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <columns>
+                        <TableColumn fx:id="nameCol" prefWidth="150.0" resizable="false" text="Player Name">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="name" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores1col" prefWidth="70.0" resizable="false" text="1">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores2col" prefWidth="70.0" resizable="false" text="2">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores3col" prefWidth="70.0" resizable="false" text="3">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores4col" prefWidth="70.0" resizable="false" text="4">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores5col" prefWidth="70.0" resizable="false" text="5">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores6col" prefWidth="70.0" resizable="false" text="6">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="getScore(6)" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores7col" prefWidth="70.0" resizable="false" text="7">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="getScore(7)" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores8col" prefWidth="70.0" resizable="false" text="8">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="getScore(8)" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores9col" prefWidth="70.0" resizable="false" text="9">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="getScore(9)" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="scores10col" prefWidth="70.0" resizable="false" text="10">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="totalCol" prefWidth="85.0" resizable="false" text="Total">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="total" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                    <GridPane.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </GridPane.margin>
+                </TableView>
+                <Label id="alertLabel" fx:id="alertLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="alertLabel" visible="false" GridPane.columnIndex="1">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <children>
+                        <Button fx:id="strikeBtn" mnemonicParsing="false" onAction="#strikeBtnHandle" text="Simulate Strike" />
+                        <Button fx:id="spareBtn" mnemonicParsing="false" onAction="#spareBtnHandle" text="Simulate Spare" />
+                    </children>
+                </HBox>
+            </children>
+        </GridPane>
+        <Button fx:id="orderBtn" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#orderBtnHandle" text="Catering service" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets left="40.0" right="40.0" />
+            </GridPane.margin>
+        </Button>
+    </children>
+</GridPane>

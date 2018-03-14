@@ -72,7 +72,7 @@ public class OrderController {
                 Stage stage;
                 Parent root;
                 stage = (Stage) orderBtn.getScene().getWindow();
-                root = FXMLLoader.load(getClass().getResource("Game.fxml"));
+                root = FXMLLoader.load(getClass().getResource("Lane1.fxml"));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.close();
@@ -89,7 +89,7 @@ public class OrderController {
             Stage orderStage = new Stage();
             Parent root;
             orderStage = (Stage) backBtn.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("Game.fxml"));
+            root = FXMLLoader.load(getClass().getResource("Lane1.fxml"));
             Scene scene = new Scene(root);
             orderStage.setScene(scene);
             orderStage.close();
