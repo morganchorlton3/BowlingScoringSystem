@@ -45,7 +45,6 @@ public class SetupController{
                 new KeyFrame(Duration.seconds( 0.1), evt -> alertLabel.setVisible(true)));
         timeline.setCycleCount(3);
         timeline.play();
-
     }
     @FXML
     private void AddBtnhandle(ActionEvent event) {
@@ -67,7 +66,6 @@ public class SetupController{
     public static ArrayList<Player> getPlayerList() {
         return playerList;
     }
-    // Is being used but the PlayerList
     public void setPlayerList(ArrayList<Player> playerList) {
         this.playerList = playerList;
     }
@@ -78,7 +76,9 @@ public class SetupController{
         productSelected = table.getSelectionModel().getSelectedItems();
 
         productSelected.forEach(allPlayers::remove);
-        System.out.println(productSelected);
+        for (int i = 0; i < playerList.size(); i++) {
+            //try to remove players
+        }
     }
     @FXML
     private void startBtnHandle(ActionEvent event)throws IOException {
@@ -91,15 +91,15 @@ public class SetupController{
             if (option.get() == ButtonType.OK) {
                 String playerName = nameCol.toString().split(",")[0].substring(1);
                 System.out.println(playerName);
-                Stage stage;
+                Stage orderStage = new Stage();
                 Parent root;
-                stage = (Stage) addButton.getScene().getWindow();
+                orderStage = (Stage) addButton.getScene().getWindow();
                 root = FXMLLoader.load(getClass().getResource("Game.fxml"));
                 Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-                stage.setResizable(false);
-                stage.setWidth(1400);
+                orderStage.setScene(scene);
+                orderStage.show();
+                orderStage.setResizable(false);
+                orderStage.setWidth(1400);
 
             }else if (option.get() == ButtonType.CANCEL) {
                 confirmAlert.close();

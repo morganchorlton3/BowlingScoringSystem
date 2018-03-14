@@ -114,29 +114,21 @@ public class GameController {
             turn=3;
             lane1BowlBtn.setText("Next Player");
             totalScore=0;
-            if (count == size){
-                count = 0;
-                selectPlayer(count);
-            }else if(count <= size){
-                selectPlayer(count);
-                count++;
-            }
-        }else{
-            //handleSound(score1, score2);
-            lane1score.setText(score1String);
-            lane1score.setVisible(true);
-            max = 10 - score1;
-            lane1BowlBtn.setText("Bowl again");
-            handlePins(score1);
-            if (count == size){
-                count = 0;
-                round++;
-                selectPlayer(count);
-            }else if(count <= size){
-                selectPlayer(count);
-            }
-            turn++;
         }
+        //handleSound(score1, score2);
+        lane1score.setText(score1String);
+        lane1score.setVisible(true);
+        max = 10 - score1;
+        lane1BowlBtn.setText("Bowl again");
+        handlePins(score1);
+        if (count == size){
+            count = 0;
+            round++;
+            selectPlayer(count);
+        }else if(count <= size){
+            selectPlayer(count);
+        }
+        turn++;
     }
     private void takeTurn2(){
         score2 = getscore(max);
@@ -393,15 +385,12 @@ public class GameController {
     /* Order Food */
     @FXML
     private void orderBtnHandle(ActionEvent event) throws IOException{
-        Stage stage;
-        Parent root;
-        stage = (Stage) orderBtn.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("Order.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Order.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setTitle("ABC");
+        stage.setScene(new Scene(root1));
         stage.show();
-        stage.setResizable(false);
-        stage.setWidth(1400);
     }
 
 

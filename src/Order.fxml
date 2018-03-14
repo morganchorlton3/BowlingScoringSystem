@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import java.net.URL?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<GridPane stylesheets="@Dark-Theme.css" xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="OrderController">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane stylesheets="@Dark-Theme.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OrderController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
     </columnConstraints>
@@ -25,19 +27,24 @@
     <children>
         <GridPane alignment="center" hgap="10" minHeight="-Infinity" minWidth="-Infinity" vgap="10" GridPane.rowIndex="1">
             <children>
-                <TableView fx:id="orderTable" accessibleRole="PAGE_ITEM" editable="true" prefHeight="400.0" prefWidth="200.0" GridPane.columnIndex="1">
+                <TableView fx:id="table" accessibleRole="PAGE_ITEM" editable="true" prefHeight="400.0" prefWidth="200.0" GridPane.columnIndex="1">
                     <placeholder>
-                        <Label text="Please add players to start a game" />
+                        <Label text="Add items to order food" />
                     </placeholder>
                     <columns>
-                        <TableColumn fx:id="nameCol" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" resizable="false" text="Item">
+                        <TableColumn fx:id="itemCol" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" resizable="false" text="Item">
                             <cellValueFactory>
-                                <PropertyValueFactory property="name" />
+                                <PropertyValueFactory property="Item" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="preferenceCol" editable="true" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Quantity">
+                        <TableColumn fx:id="quantityCol" editable="true" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Quantity">
                             <cellValueFactory>
-                                <PropertyValueFactory property="Preference" />
+                                <PropertyValueFactory property="Quantity" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="priceCol" editable="true" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Price">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="PriceString" />
                             </cellValueFactory>
                         </TableColumn>
                     </columns>
@@ -45,14 +52,6 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" />
                     </GridPane.margin>
                 </TableView>
-                <JFXButton alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" maxWidth="1.7976931348623157E308" mnemonicParsing="false"  prefHeight="40.0" prefWidth="475.0" text="Order Food" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <font>
-                        <Font size="24.0" />
-                    </font>
-                    <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                    </GridPane.margin>
-                </JFXButton>
                 <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -61,19 +60,25 @@
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="Item:">
+                        <Label text="item:">
                             <font>
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <JFXComboBox fx:id="comboItem" prefWidth="150.0" promptText="Burger" GridPane.columnIndex="1">
+                        <Label text="Quantity:" GridPane.rowIndex="1">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                        <JFXComboBox fx:id="comboItem" prefWidth="150.0" promptText="Item" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:id="Burger" fx:value="Burger" />
-                                    <String fx:id="Hot Dog" fx:value="Hot Dog" />
                                     <String fx:id="Fries" fx:value="Fries" />
+                                    <String fx:id="Hot_dog" fx:value="Hot Dog" />
                                     <String fx:id="Soda" fx:value="Soda" />
                                     <String fx:id="Coffee" fx:value="Coffee" />
                                     <String fx:id="Tea" fx:value="Tea" />
@@ -82,12 +87,7 @@
                                 </FXCollections>
                             </items>
                         </JFXComboBox>
-                        <Label layoutX="10.0" layoutY="100.0" text="Quantity:" GridPane.rowIndex="1">
-                            <font>
-                                <Font size="20.0" />
-                            </font>
-                        </Label>
-                        <JFXComboBox fx:id="comboQuantity" layoutX="160.0" layoutY="96.0" prefWidth="150.0" promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXComboBox fx:id="comboQuantity" prefWidth="150.0" promptText="Quantity" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:id="1" fx:value="1" />
@@ -95,25 +95,41 @@
                                     <String fx:id="3" fx:value="3" />
                                     <String fx:id="4" fx:value="4" />
                                     <String fx:id="5" fx:value="5" />
-                                    <String fx:id="6" fx:value="6" />
-                                    <String fx:id="7" fx:value="7" />
-                                    <String fx:id="8" fx:value="8" />
-                                    <String fx:id="9" fx:value="9" />
-                                    <String fx:id="10" fx:value="10" />
                                 </FXCollections>
                             </items>
                         </JFXComboBox>
                     </children>
                 </GridPane>
-                <VBox maxWidth="1.7976931348623157E308" minWidth="-Infinity" spacing="15.0" GridPane.rowIndex="1">
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.rowIndex="1">
                     <children>
-                        <JFXButton fx:id="addButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#addItemBtnhandle" text="Add Item to order" />
-                        <JFXButton fx:id="delButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="140.0" mnemonicParsing="false" onAction="#remItemBtnHandle" text="Remove Item from order" textAlignment="CENTER" />
+                        <JFXButton fx:id="addBtn" onAction="#AddBtnhandle" alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="140.0" mnemonicParsing="false" text="Add Item">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="delBtn" onAction="#delBtnHandle" alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="140.0" mnemonicParsing="false" text="Remove Item" textAlignment="CENTER" />
                     </children>
-                    <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </GridPane.margin>
-                </VBox>
+                    <padding>
+                        <Insets top="30.0" />
+                    </padding>
+                </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                      <JFXButton fx:id="orderBtn" alignment="CENTER" onAction="#startBtnHandle" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="475.0" text="Order Food">
+                          <font>
+                              <Font size="24.0" />
+                          </font>
+                      </JFXButton>
+                      <JFXButton fx:id="backBtn" alignment="CENTER" onAction="#backBtnHandle" contentDisplay="BOTTOM" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="475.0" text="Back To Game">
+                          <font>
+                              <Font size="24.0" />
+                          </font>
+                      </JFXButton>
+               </children>
+               <padding>
+                  <Insets left="15.0" right="15.0" top="30.0" />
+               </padding>
+            </HBox>
             </children>
             <columnConstraints>
                 <ColumnConstraints minWidth="-Infinity" prefWidth="300.0" />
@@ -123,9 +139,23 @@
                 <RowConstraints minHeight="-Infinity" />
                 <RowConstraints minHeight="-Infinity" />
             </rowConstraints>
+            <stylesheets>
+                <URL value="@Dark-Theme.css" />
+            </stylesheets>
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
         </GridPane>
+        <Label id="alertLabel" fx:id="alertLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Label" textAlignment="CENTER" visible="false">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <GridPane.margin>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </GridPane.margin>
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </padding>
+        </Label>
     </children>
 </GridPane>
