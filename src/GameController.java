@@ -21,6 +21,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.util.*;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,43 +39,43 @@ public class GameController {
     private int score1 = 0;
     private int score2 = 0;
     private int score3 = 0;
+    private String winnerName;
     //JFX initialization
     @FXML
     Label alertLabel;
     /* Lane 1 */
     @FXML
-    Button lane1BowlBtn,orderBtn, strikeBtn, spareBtn;
+    Button lane1BowlBtn, orderBtn, strikeBtn, spareBtn;
     @FXML
-    Label lane1score,lane1score2,lane1score3, lane1add, playerName,playerLabel;
+    Label lane1score, lane1score2, lane1score3, lane1add, playerName, playerLabel;
     @FXML
-    RadioButton lane1Pin1, lane1Pin2, lane1Pin3, lane1Pin4, lane1Pin5, lane1Pin6, lane1Pin7, lane1Pin8, lane1Pin9,lane1Pin10;
+    RadioButton lane1Pin1, lane1Pin2, lane1Pin3, lane1Pin4, lane1Pin5, lane1Pin6, lane1Pin7, lane1Pin8, lane1Pin9, lane1Pin10;
     @FXML
     List<RadioButton> radios = new ArrayList<>(Arrays.asList(lane1Pin1, lane1Pin2, lane1Pin3, lane1Pin4, lane1Pin5, lane1Pin6, lane1Pin7, lane1Pin8, lane1Pin9, lane1Pin10));
     @FXML
     TableView scoreboard;
     @FXML
-    TableColumn <Player, String> scores1col, scores2col, scores3col, scores4col, scores5col, scores6col, scores7col, scores8col, scores9col, scores10col;
-    public void alert(String message){
+    TableColumn<Player, String> scores1col, scores2col, scores3col, scores4col, scores5col, scores6col, scores7col, scores8col, scores9col, scores10col;
+
+    public void alert(String message, int duration) {
         alertLabel.setText(message);
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), evt -> alertLabel.setVisible(false)),
-                new KeyFrame(Duration.seconds( 0.1), evt -> alertLabel.setVisible(true)));
-        timeline.setCycleCount(1);
+                new KeyFrame(Duration.seconds(0.1), evt -> alertLabel.setVisible(true)));
+        timeline.setCycleCount(duration);
         timeline.play();
 
     }
+
     private static int getscore(int max) {
         Random rand = new Random();
-        int  randomnum = rand.nextInt(max+1);
+        int randomnum = rand.nextInt(max + 1);
         return randomnum;
     }
+
     @FXML
-    private void lane1BtnHandle(ActionEvent event)throws IOException {
-        System.out.println(lastTurn);
-        System.out.println(round);
-        if(round == 11){
-            endGame();
-        }else if(round <= 9){
-            if (turn == 0){
+    private void lane1BtnHandle(ActionEvent event) throws IOException {
+        if (round <= 10) {
+            if (turn == 0) {
                 lane1BowlBtn.setText("Bowl ball");
                 Player activePlayer = PlayerList.get(0);
                 playerLabel.setVisible(true);
@@ -82,13 +83,30 @@ public class GameController {
                 String name = activePlayer.getName();
                 playerName.setText(name);
                 turn = 1;
-            }else if (turn == 1) {
+            } else if (turn == 1) {
                 takeTurn1();
-            }else if (turn == 2){
+            } else if (turn == 2) {
                 takeTurn2();
-            }else if (turn == 3){
+            } else if (turn == 3) {
                 takeTurn3();
-            }else if (turn == 4) {
+                int size = PlayerList.size();
+                if (count == size) {
+                    count = 0;
+                    round++;
+                    handleScore(round, score1, score2);
+                    selectPlayer(count);
+                } else if (count <= size) {
+                    handleScore(round, score1, score2);
+                    selectPlayer(count);
+                } else if (turn == 4) {
+                    handleWinner();
+                }
+                count++;
+            } else if (turn == 10) {
+                System.exit(0);
+            }
+
+            /*else if (turn == 4) {
                 takelastTurn1();
             }else if (turn == 5){
                 takeLastTurn2();
@@ -97,36 +115,28 @@ public class GameController {
             }else if (turn == 7){
                 System.out.println(lastTurn);
                 endGame();
-            }
+            }*/
         }
     }
+
     private void takeTurn1(){
         score1 = getscore(max);
         int size = PlayerList.size();
         String score1String = String.valueOf(score1);
         if(score1 == 10){
-            lane1score.setText("X");
-            lane1score.setVisible(true);
+            //handleSound(score1, score2);
+            lane1score.setText(score1String);
             message = "Strike";
-            alert(message);
-            score2=0;
-            handleScore(round, score1, score2);
-            turn=3;
+            alert(message, 1);
+            turn++;
             lane1BowlBtn.setText("Next Player");
-            totalScore=0;
-        }
-        //handleSound(score1, score2);
-        lane1score.setText(score1String);
-        lane1score.setVisible(true);
-        max = 10 - score1;
-        lane1BowlBtn.setText("Bowl again");
-        handlePins(score1);
-        if (count == size){
-            count = 0;
-            round++;
-            selectPlayer(count);
-        }else if(count <= size){
-            selectPlayer(count);
+        }else {
+            //handleSound(score1, score2);
+            lane1score.setText(score1String);
+            lane1score.setVisible(true);
+            max = 10 - score1;
+            lane1BowlBtn.setText("Bowl again");
+            handlePins(score1);
         }
         turn++;
     }
@@ -146,22 +156,10 @@ public class GameController {
         int score = score1 + score2;
         if(totalScore == 10){
             message = "Spare";
-            alert(message);
+            alert(message, 1);
         }
         handlePins(score);
-        if (count == size){
-            count = 0;
-            round++;
-            handleScore(round, score1, score2);
-        }else if(count <= size){
-            handleScore(round, score1, score2);
-        }
-        if(round == 10){
-            turn=4;
-        }
         turn ++;
-        totalScore=0;
-        count++;
     }
     private void takeTurn3(){
         lane1score.setVisible(false);
@@ -174,52 +172,12 @@ public class GameController {
         updateScoreboard();
         max = 10;
         turn = 1;
-        if(round == 11){
-            lane1BowlBtn.setText("Tally Score");
-            System.out.println("End of Game");
+        if(round == 10){
+            lane1BowlBtn.setText("Finish Game");
             handleWinner();
+            turn=10;
         }
-    }
-    private void takelastTurn1(){
-        score1 = getscore(max);
-        String score1String = String.valueOf(score1);
-        if(score1 == 10){
-            handleExtraGo();
-            count++;
-            int size = PlayerList.size();
-            if (count == size){
-                endGame();
-                handleScore(round, score1, score2);
-            }else if(count <= size){
-                handleScore(round, score1, score2);
-            }
-        }else{
-            //handleSound(score1, score2);
-            lane1score.setText(score1String);
-            lane1score.setVisible(true);
-            max = 10 - score1;
-            lane1BowlBtn.setText("Bowl again");
-            lastTurn++;
-        }
-    }
-    private void takeLastTurn2(){
-        score2 = getscore(max);
-        String score2String =String.valueOf(score2);
-        lane1add.setVisible(true);
-        //handleSound(score1, score2);
-        lane1score2.setText(score2String);
-        lane1score2.setVisible(true);
-        lane1BowlBtn.setText("Next player");
-        int size = PlayerList.size();
-        if (count == size){
-            handleScore(round, score1, score2);
-            lastTurn =4;
-            round++;
-        }else if(count <= size){
-            handleScore(round, score1, score2);
-            lastTurn++;
-        }
-        count++;
+        totalScore=0;
     }
     private void takeLastTurn3(){
         lane1score.setVisible(false);
@@ -243,15 +201,10 @@ public class GameController {
         handleFinalTotal(score3);
         int size = PlayerList.size();
         if (count == size){
-            endGame();
             handleScore(round, score1, score2);
         }else if(count <= size){
             handleScore(round, score1, score2);
         }
-    }
-    private void endGame(){
-        System.out.println("Game Over");
-        handleWinner();
     }
     private void handlePins(int score){
         int counter = 0;
@@ -277,21 +230,17 @@ public class GameController {
     private void handleWinner(){
         int highestScore = 0;
         int highestScorePlayerID = 0;
-        while(true){
-            for (int i = 0; i < PlayerList.size(); i++) {
-                Player activePlayer = PlayerList.get(i);
-                if (activePlayer.getTotal() > highestScore){
-                    highestScore = activePlayer.getTotal();
-                    highestScorePlayerID = activePlayer.getPlayerID();
-                }else if (activePlayer.getTotal() == highestScore && activePlayer.getPlayerID() == highestScorePlayerID){
-                    message = activePlayer.getName() + " is the winner";
-                    alert(message);
-                    break;
-                }
+        for (int i = 0; i < PlayerList.size(); i++) {
+            Player activePlayer = PlayerList.get(i);
+            if (activePlayer.getTotal() > highestScore){
+                highestScore = activePlayer.getTotal();
+                highestScorePlayerID = activePlayer.getPlayerID();
+                winnerName = activePlayer.getName();
             }
-            System.out.println(highestScore + " Player ID = " + highestScorePlayerID);
-            break;
         }
+        message = winnerName + " is the winner";
+        alert(message, 10);
+        System.out.println(highestScore + " Player ID = " + highestScorePlayerID);
     }
     private void handleFinalTotal(int score3){
         Player activePlayer = PlayerList.get(count);
@@ -347,7 +296,7 @@ public class GameController {
         lane1score.setText("X");
         lane1score.setVisible(true);
         message = "Strike";
-        alert(message);
+        alert(message, 1);
         handleScore(round, score1, score2);
         turn=3;
         lane1BowlBtn.setText("Next Player");
@@ -356,7 +305,7 @@ public class GameController {
     }
     @FXML
     private void spareBtnHandle(ActionEvent event)throws IOException {
-        handleWinner();
+
     }
     /* Table View */
     @FXML
@@ -388,7 +337,7 @@ public class GameController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Order.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
-        stage.setTitle("ABC");
+        stage.setTitle("Catering Service");
         stage.setScene(new Scene(root1));
         stage.show();
     }

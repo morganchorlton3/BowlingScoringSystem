@@ -52,6 +52,8 @@ public class OrderController {
     }
     @FXML
     private void delBtnHandle(ActionEvent event) {
+        Order selectedItem = (Order)table.getSelectionModel().getSelectedItem();
+        priceList.remove(selectedItem);
         ObservableList<Order> productSelected, allOrders;
         allOrders = table.getItems();
         productSelected = table.getSelectionModel().getSelectedItems();

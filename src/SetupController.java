@@ -71,14 +71,13 @@ public class SetupController{
     }
     @FXML
     private void delBtnHandle(ActionEvent event) {
+        Player selectedPlayer = (Player)table.getSelectionModel().getSelectedItem();
+        playerList.remove(selectedPlayer);
         ObservableList<Player> productSelected, allPlayers;
         allPlayers = table.getItems();
         productSelected = table.getSelectionModel().getSelectedItems();
 
         productSelected.forEach(allPlayers::remove);
-        for (int i = 0; i < playerList.size(); i++) {
-            //try to remove players
-        }
     }
     @FXML
     private void startBtnHandle(ActionEvent event)throws IOException {
@@ -98,6 +97,7 @@ public class SetupController{
                 Scene scene = new Scene(root);
                 orderStage.setScene(scene);
                 orderStage.show();
+                orderStage.setTitle("Bowling Game");
                 orderStage.setResizable(false);
                 orderStage.setWidth(1400);
 
