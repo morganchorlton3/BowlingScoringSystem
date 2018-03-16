@@ -87,7 +87,7 @@ public class SetupController{
             if (option.get() == ButtonType.OK) {
                 String playerName = nameCol.toString().split(",")[0].substring(1);
                 System.out.println(playerName);
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Lane2.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Lane1.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();
                 Stage lane1Stage = new Stage();
                 lane1Stage.setTitle("Bowling Game, Lane 1");

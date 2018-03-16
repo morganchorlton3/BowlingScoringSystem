@@ -1,52 +1,39 @@
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.Duration;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.URL;
-import java.security.MessageDigest;
 import java.util.*;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Lane1Controller {
     //Variables
+    private int strikeCount;
+    private int max =0;
     private String message;
-    private int round = 1;
-    private int count = 0;
+    private int frame = 1;
     private static ArrayList<Player> PlayerList = SetupController.getPlayerList();
     private int totalScore = 0;
     private int turn = 0;
-    private int lastTurn = 1;
-    private int max = 10;
     private int score1 = 0;
     private int score2 = 0;
     private int score3 = 0;
+    private int count = 0;
     private String winnerName;
     private boolean lastRoundStrike =  false;
+    private int id;
     //JFX initialization
     @FXML
     Label alertLabel;
     /* Lane 1 */
     @FXML
-    Button lane1BowlBtn, orderBtn, strikeBtn, spareBtn;
+    Button lane1BowlBtn, orderBtn;
     @FXML
     Label lane1score, lane1score2, lane1score3, lane1add, playerName, playerLabel;
     @FXML
@@ -58,7 +45,7 @@ public class Lane1Controller {
     @FXML
     TableColumn<Player, String> scores1col, scores2col, scores3col, scores4col, scores5col, scores6col, scores7col, scores8col, scores9col, scores10col;
 
-    public void alert(String message, int duration) {
+    private void alert(String message, int duration) {
         alertLabel.setText(message);
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), evt -> alertLabel.setVisible(false)),
                 new KeyFrame(Duration.seconds(0.1), evt -> alertLabel.setVisible(true)));
@@ -67,7 +54,7 @@ public class Lane1Controller {
 
     }
 
-    private static int getscore(int max) {
+    private static int getScore(int max) {
         Random rand = new Random();
         int randomnum = rand.nextInt(max + 1);
         return randomnum;
@@ -75,7 +62,7 @@ public class Lane1Controller {
 
     @FXML
     private void lane1BtnHandle(ActionEvent event) throws IOException {
-        if (round <= 10) {
+        if (frame <= 10) {
             if (turn == 0) {
                 lane1BowlBtn.setText("Bowl ball");
                 Player activePlayer = PlayerList.get(0);
@@ -93,48 +80,47 @@ public class Lane1Controller {
                 int size = PlayerList.size();
                 if (count == size) {
                     count = 0;
-                    round++;
-                    handleScore(round, score1, score2);
+                    frame++;
+                    handleScore(frame, score1, score2);
                     selectPlayer(count);
+                    //checkForStrike();
                 } else if (count <= size) {
-                    handleScore(round, score1, score2);
+                    handleScore(frame, score1, score2);
                     selectPlayer(count);
-                } else if (turn == 4) {
-                    handleWinner();
+                    //checkForStrike();
                 }
                 count++;
-            } else if (turn == 10) {
-                System.exit(0);
+            }else if (turn == 10) {
+                System.out.println("Exit program");
+                //System.exit(0);
             }
         }
     }
-
     private void takeTurn1() {
-        score1 = getscore(max);
-        String score1String = String.valueOf(score1);
-        if (score1 == 10) {
-            //handleSound(score1, score2);
-            lane1score.setText(score1String);
-            message = "Strike";
-            alert(message, 1);
-            turn++;
-            lane1BowlBtn.setText("Next Player");
-            lastRoundStrike = true;
+        score1 = getScore(max);
+        /*if (score1 == 10) {
+            isStrike = true;
+            handleStrike(frame, isStrike, score1);
         } else {
-            //handleSound(score1, score2);
             lane1score.setText(score1String);
             lane1score.setVisible(true);
             max = 10 - score1;
             lane1BowlBtn.setText("Bowl again");
             handlePins(score1);
-        }
+        }*/
+        String score1String = String.valueOf(score1);
+        lane1score.setText(score1String);
+        lane1score.setVisible(true);
+        max = 10 - score1;
+        lane1BowlBtn.setText("Bowl again");
+        handlePins(score1);
         turn++;
     }
     private void takeTurn2(){
-        score2 = getscore(max);
+        score2 = getScore(max);
+        //checkScore();
         String score2String =String.valueOf(score2);
         lane1add.setVisible(true);
-        //handleSound(score1, score2);
         lane1score2.setText(score2String);
         lane1score2.setVisible(true);
         lane1BowlBtn.setText("Next player");
@@ -143,15 +129,15 @@ public class Lane1Controller {
         }
         int size = PlayerList.size();
         totalScore = score1 + score2;
-        int score = score1 + score2;
         if(totalScore == 10){
             message = "Spare";
             alert(message, 1);
         }
-        handlePins(score);
-        turn ++;
+        handlePins(totalScore);
+        //handleLastGo();
+        turn++;
     }
-    private void takeTurn3(){
+    private void takeTurn3() {
         lane1score.setVisible(false);
         lane1score2.setVisible(false);
         lane1add.setVisible(false);
@@ -162,26 +148,23 @@ public class Lane1Controller {
         updateScoreboard();
         max = 10;
         turn = 1;
-        if(round == 10){
+        if (frame == 10) {
             lane1BowlBtn.setText("Finish Game");
             handleWinner();
-            turn=10;
+            turn = 10;
         }
-        totalScore=0;
+        totalScore = 0;
     }
-    private void handleExtraGo(){
-        score3 = getscore(10);
-        String score2String =String.valueOf(score2);
-        lane1add.setVisible(true);
-        handleSound(score1, score2);
-        lane1score3.setText(score2String);
-        lane1score3.setVisible(true);
-        int size = PlayerList.size();
-        if (count == size){
-            handleScore(round, score1, score2);
-        }else if(count <= size){
-            handleScore(round, score1, score2);
+    private void checkScore(){
+        if(score1 == 10){
+            System.out.println("Strike");
+            strikeCount++;
+            //activePlayer.setStrikeCount(strikeCount);
+            //System.out.println(activePlayer);
+        }else if(score1+score2 == 10){
+            System.out.println("Spare");
         }
+        turn++;
     }
     private void handlePins(int score){
         int counter = 0;
@@ -200,9 +183,9 @@ public class Lane1Controller {
             }
         }
     }
-    private void handleScore(int round, int score1, int score2){
+    private void handleScore(int frame, int score1, int score2){
         Player activePlayer = PlayerList.get(count);
-        activePlayer.setScore(round, score1, score2);
+        activePlayer.setScore(frame, score1, score2);
     }
     private void handleWinner(){
         int highestScore = 0;
@@ -218,25 +201,6 @@ public class Lane1Controller {
         message = winnerName + " is the winner";
         alert(message, 10);
         System.out.println(highestScore + " Player ID = " + highestScorePlayerID);
-    }
-    private void handleSound(int score1, int score2){
-        try {
-            if(score1 == 0 | score1 == 0){
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new FileInputStream("bowling1.wav"));
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.start();
-            }else if(score1 > 0 | score2 > 0){
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new FileInputStream("bowling3.wav"));
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.start();
-            }
-        } catch(Exception ex) {
-            System.out.println("Error with playing sound.");
-            ex.printStackTrace();
-        }
-
     }
     public void initialize() {
         for (RadioButton button : radios) {
@@ -261,24 +225,6 @@ public class Lane1Controller {
         for (int i = 0; i < PlayerList.size(); i++) {
             scoreboard.getItems().add(PlayerList.get(i));
         }
-    }
-    @FXML
-    private void strikeBtnHandle(ActionEvent event)throws IOException {
-        score1 = 10;
-        score2=0;
-        lane1score.setText("X");
-        lane1score.setVisible(true);
-        message = "Strike";
-        alert(message, 1);
-        handleScore(round, score1, score2);
-        turn=3;
-        lane1BowlBtn.setText("Next Player");
-        totalScore=0;
-        count++;
-    }
-    @FXML
-    private void spareBtnHandle(ActionEvent event)throws IOException {
-
     }
     /* Table View */
     @FXML

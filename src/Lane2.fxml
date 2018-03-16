@@ -218,15 +218,9 @@
                         <Font size="48.0" />
                     </font>
                 </Label>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <children>
-                        <Button fx:id="strikeBtn" mnemonicParsing="false" onAction="#strikeBtnHandle" text="Simulate Strike" />
-                        <Button fx:id="spareBtn" mnemonicParsing="false" onAction="#spareBtnHandle" text="Simulate Spare" />
-                    </children>
-                </HBox>
             </children>
         </GridPane>
-        <Button fx:id="orderBtn" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#orderBtnHandle" text="Catering service" GridPane.rowIndex="1">
+        <Button fx:id="orderBtn" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false"  text="Catering service" GridPane.rowIndex="1">
             <GridPane.margin>
                 <Insets left="40.0" right="40.0" />
             </GridPane.margin>
