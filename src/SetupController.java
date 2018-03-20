@@ -101,6 +101,7 @@ public class SetupController{
             }
         }
     }
+    @FXML
     public void startLane2BtnHandle(ActionEvent event)throws IOException {
         if (checkMinPlayers(table) == true) {
             int playerList = table.getItems().size();

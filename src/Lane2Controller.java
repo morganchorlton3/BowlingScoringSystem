@@ -9,11 +9,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.util.*;
-import java.io.IOException;
 
-public class Lane1Controller {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+public class Lane2Controller {
     //Variables
+    private int strikeCount;
     private int max =0;
     private String message;
     private int frame = 1;
@@ -26,7 +31,6 @@ public class Lane1Controller {
     private int count = 0;
     private String winnerName;
     private boolean lastRoundStrike =  false;
-    private boolean simulateStrike = false;
     private int id;
     public Player activePlayer = null;
     //JFX initialization
@@ -34,13 +38,13 @@ public class Lane1Controller {
     Label alertLabel;
     /* Lane 1 */
     @FXML
-    Button lane1BowlBtn, orderBtn, simulateStrikeBtn;
+    Button lane2BowlBtn, orderBtn;
     @FXML
-    Label lane1score, lane1score2, lane1score3, lane1add, playerName, playerLabel;
+    Label lane2score, lane2score2, lane2score3, lane2add, playerName, playerLabel;
     @FXML
-    RadioButton lane1Pin1, lane1Pin2, lane1Pin3, lane1Pin4, lane1Pin5, lane1Pin6, lane1Pin7, lane1Pin8, lane1Pin9, lane1Pin10;
+    RadioButton lane2Pin1, lane2Pin2, lane2Pin3, lane2Pin4, lane2Pin5, lane2Pin6, lane2Pin7, lane2Pin8, lane2Pin9, lane2Pin10;
     @FXML
-    List<RadioButton> radios = new ArrayList<>(Arrays.asList(lane1Pin1, lane1Pin2, lane1Pin3, lane1Pin4, lane1Pin5, lane1Pin6, lane1Pin7, lane1Pin8, lane1Pin9, lane1Pin10));
+    List<RadioButton> radios = new ArrayList<>(Arrays.asList(lane2Pin1, lane2Pin2, lane2Pin3, lane2Pin4, lane2Pin5, lane2Pin6, lane2Pin7, lane2Pin8, lane2Pin9, lane2Pin10));
     @FXML
     TableView scoreboard;
     @FXML
@@ -55,13 +59,9 @@ public class Lane1Controller {
 
     }
 
-    private int getScore(int max) {
+    private static int getScore(int max) {
         Random rand = new Random();
         int randomnum = rand.nextInt(max + 1);
-        if (simulateStrike){
-            randomnum = 10;
-            simulateStrike = false;
-        }
         return randomnum;
     }
     private Player getPlayer(int count) {
@@ -73,11 +73,11 @@ public class Lane1Controller {
         return activePlayer;
     }
     @FXML
-    private void lane1BtnHandle(ActionEvent event) throws IOException {
+    private void lane2BtnHandle(ActionEvent event) throws IOException {
         ScoreCol();
         if (activePlayer == null){
             activePlayer = getPlayer(count);
-            lane1BowlBtn.setText("Bowl ball");
+            lane2BowlBtn.setText("Bowl ball");
             turn = 1;
         }else if (turn == 1){
             takeTurn1();
@@ -107,23 +107,14 @@ public class Lane1Controller {
     private void handleScore(int frame, int score1, int score2){
         Player activePlayer = PlayerList.get(count);
         activePlayer.setScore(frame, score1, score2);
-        int newScore = score1+score2;
-        lastRoundStrike = activePlayer.isLastStrike();
-        if (lastRoundStrike){
-            activePlayer.setScore(frame-1, 10, newScore);
-            activePlayer.setLastStrike(false);
-        }
-        if (score1 == 10){
-            activePlayer.setLastStrike(true);
-        }
     }
     private void takeTurn1() {
         score1 = getScore(max);
         String score1String = String.valueOf(score1);
-        lane1score.setText(score1String);
-        lane1score.setVisible(true);
+        lane2score.setText(score1String);
+        lane2score.setVisible(true);
         max = 10 - score1;
-        lane1BowlBtn.setText("Bowl again");
+        lane2BowlBtn.setText("Bowl again");
         handlePins(score1);
         turn++;
     }
@@ -131,9 +122,9 @@ public class Lane1Controller {
         score2 = getScore(max);
         //checkScore();
         String score2String =String.valueOf(score2);
-        lane1add.setVisible(true);
-        lane1score2.setText(score2String);
-        lane1score2.setVisible(true);
+        lane2add.setVisible(true);
+        lane2score2.setText(score2String);
+        lane2score2.setVisible(true);
         for (RadioButton button : radios) {
             button.setSelected(true);
         }
@@ -148,17 +139,17 @@ public class Lane1Controller {
         turn++;
     }
     private void takeTurn3() {
-        lane1score.setVisible(false);
-        lane1score2.setVisible(false);
-        lane1add.setVisible(false);
-        lane1BowlBtn.setText("Next player");
+        lane2score.setVisible(false);
+        lane2score2.setVisible(false);
+        lane2add.setVisible(false);
+        lane2BowlBtn.setText("Next player");
         for (RadioButton button : radios) {
             button.setSelected(true);
         }
         updateScoreboard();
         max = 10;
         if (frame == 10) {
-            lane1BowlBtn.setText("Finish Game");
+            lane2BowlBtn.setText("Finish Game");
             handleWinner();
         }
         totalScore = 0;
@@ -166,6 +157,7 @@ public class Lane1Controller {
     private void checkScore(){
         if(score1 == 10){
             System.out.println("Strike");
+            strikeCount++;
             //activePlayer.setStrikeCount(strikeCount);
             //System.out.println(activePlayer);
         }else if(score1+score2 == 10){
@@ -250,10 +242,6 @@ public class Lane1Controller {
                 new SimpleStringProperty(cellData.getValue().getScore(10)));
     }
     /* Order Food */
-    @FXML
-    private void SimulateStrike(ActionEvent event) throws IOException{
-        simulateStrike = true;
-    }
     @FXML
     private void orderBtnHandle(ActionEvent event) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Order.fxml"));

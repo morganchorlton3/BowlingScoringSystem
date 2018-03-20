@@ -10,6 +10,7 @@ public class Player {
     private int roundtotal;
     private int total ;
     private int strikeCount;
+    boolean lastStrike;
 
     public Player(){
         this.playerID = id.incrementAndGet();
@@ -18,16 +19,16 @@ public class Player {
         this.barriers = "Yes";
         this.scores = new String[11] ;
         this.strikeCount = 0;
+        this.lastStrike = false;
     }
-
-    public Player( int playerID, String Name, String preference, String barriers, int strikeCount) {
+    public Player(int playerID, String Name, String preference, String barriers, int strikeCount, boolean lastStrike) {
         this.playerID = playerID;
         this.name = Name;
         this.preference = preference;
         this.barriers = barriers;
         this.scores = new String[11] ;
         this.strikeCount = strikeCount;
-
+        this.lastStrike = lastStrike;
     }
     public int getPlayerID(){ return playerID; }
     public void setPlayerID() {this.playerID = playerID;}
@@ -61,7 +62,7 @@ public class Player {
         roundtotal = score1 + score2;
         total = total + roundtotal;
         if(score1 == 10){
-            scoreString = "X";
+            scoreString = "X / " + score2;
         }else if (roundtotal == 10){
             scoreString = "/";
         }else {
@@ -69,15 +70,22 @@ public class Player {
         }
         scores[frame] = scoreString;
     }
-    public void setBonusScore(int frame, int bonus){
-        String scoreString = "X / " + bonus;
-        scores[frame-1] = scoreString;
+    public void updateScore(int frame, int newScore){
+        setScore(frame-1, 10 , newScore);
     }
     public String getScore(int whichScore) {
         return scores[whichScore] ;
     }
     public int getTotal() {
         return total ;
+    }
+
+    public boolean isLastStrike() {
+        return lastStrike;
+    }
+
+    public void setLastStrike(boolean lastStrike) {
+        this.lastStrike = lastStrike;
     }
     @Override
     public String toString () {
