@@ -55,7 +55,6 @@ public class Lane1Controller {
         timeline.play();
 
     }
-
     public static int getScore(int max) {
         Random rand = new Random();
         int randomnum = rand.nextInt(max + 1);
@@ -109,7 +108,7 @@ public class Lane1Controller {
             turn++;
         }else if (turn==11){
             System.out.println("Exit program");
-            //System.exit(0);
+            System.exit(0);
         }
     }
     private void takeTurn1() {

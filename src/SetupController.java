@@ -99,7 +99,6 @@ public class SetupController{
                 for ( int i = 0; i<table.getItems().size(); i++) {
                     table.getItems().clear();
                 }
-                playerList.clear();
             }else if (option.get() == ButtonType.CANCEL) {
                 confirmAlert.close();
             }
@@ -126,7 +125,6 @@ public class SetupController{
                 for ( int i = 0; i<table.getItems().size(); i++) {
                     table.getItems().clear();
                 }
-                playerList.clear();
             }else if (option.get() == ButtonType.CANCEL) {
                 confirmAlert.close();
             }
