@@ -220,7 +220,7 @@
             </Label>
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Button fx:id="simulateStrikeBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Simulate Strike" />
+                  <Button fx:id="simulateStrikeBtn" onAction="#SimulateStrike" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Simulate Strike" />
                </children>
             </HBox>
          </children>

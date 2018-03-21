@@ -11,17 +11,19 @@ public class Player {
     private int total ;
     private int strikeCount;
     boolean lastStrike;
+    boolean ExtraGo;
 
     public Player(){
         this.playerID = id.incrementAndGet();
         this.name = "";
         this.preference = "Left";
         this.barriers = "Yes";
-        this.scores = new String[11] ;
+        this.scores = new String[12] ;
         this.strikeCount = 0;
         this.lastStrike = false;
+        this.ExtraGo = false;
     }
-    public Player(int playerID, String Name, String preference, String barriers, int strikeCount, boolean lastStrike) {
+    public Player(int playerID, String Name, String preference, String barriers, int strikeCount, boolean lastStrike, boolean ExtraGo) {
         this.playerID = playerID;
         this.name = Name;
         this.preference = preference;
@@ -29,6 +31,8 @@ public class Player {
         this.scores = new String[11] ;
         this.strikeCount = strikeCount;
         this.lastStrike = lastStrike;
+        this.ExtraGo = ExtraGo;
+
     }
     public int getPlayerID(){ return playerID; }
     public void setPlayerID() {this.playerID = playerID;}
@@ -87,6 +91,14 @@ public class Player {
     public void setLastStrike(boolean lastStrike) {
         this.lastStrike = lastStrike;
     }
+    public boolean isExtraGo() {
+        return ExtraGo;
+    }
+
+    public void setExtraGo(boolean extraGo) {
+        ExtraGo = extraGo;
+    }
+
     @Override
     public String toString () {
         return "Player{" +
@@ -105,6 +117,8 @@ public class Player {
                 ", S8=" + getScore(8) + '\'' +
                 ", S9=" + getScore(9) + '\'' +
                 ", S10=" + getScore(10) + '\'' +
+                ", Last round Strike=" + lastStrike + '\'' +
+                ", Extra Go=" + ExtraGo + '\'' +
                 ", Total =" + total +
                 '}';
     }
