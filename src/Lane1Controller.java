@@ -12,11 +12,9 @@ import javafx.util.Duration;
 import java.util.*;
 import java.io.IOException;
 
-import static java.lang.Thread.*;
-
 public class Lane1Controller {
     //Variables
-    private int max =0;
+    int max =0;
     private String message;
     private int frame = 1;
     private static ArrayList<Player> PlayerList = SetupController.getPlayerList();
@@ -28,7 +26,7 @@ public class Lane1Controller {
     private int count = 0;
     private String winnerName;
     private boolean lastRoundStrike =  false;
-    private boolean simulateStrike = false;
+    private static boolean simulateStrike = false;
     private int id;
     private int lastTurn= 1;
     public Player activePlayer = null;
@@ -58,7 +56,7 @@ public class Lane1Controller {
 
     }
 
-    private int getScore(int max) {
+    public static int getScore(int max) {
         Random rand = new Random();
         int randomnum = rand.nextInt(max + 1);
         if (simulateStrike){
@@ -132,9 +130,8 @@ public class Lane1Controller {
         for (RadioButton button : radios) {
             button.setSelected(true);
         }
-        int size = PlayerList.size();
         totalScore = score1 + score2;
-        if(totalScore == 10){
+        if(totalScore == 10 && score1 != 10){
             message = "Spare";
             alert(message, 1);
         }
@@ -190,6 +187,7 @@ public class Lane1Controller {
         for (int i = 0; i < PlayerList.size(); i++) {
             boolean lastRoundStrike = activePlayer.isLastStrike();
             if (lastRoundStrike){
+                System.out.println("Last Round Strike");
                 turn=1;
             }
         }
