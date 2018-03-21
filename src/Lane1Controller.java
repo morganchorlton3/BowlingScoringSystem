@@ -73,7 +73,7 @@ public class Lane1Controller {
         return activePlayer;
     }
     @FXML
-    private void lane1BtnHandle(ActionEvent event) throws IOException {
+    public void lane1BtnHandle(ActionEvent event) throws IOException {
         ScoreCol();
         if (activePlayer == null){
             activePlayer = getPlayer(count);

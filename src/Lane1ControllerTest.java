@@ -10,5 +10,11 @@ public class Lane1ControllerTest {
         assertTrue("Error, random is too low",  0  <= score);
         System.out.println("Random Number is " + score);
     }
-
+    @Test
+    public void testScore2() throws Exception {
+        int score = Lane2Controller.getScore(10);
+        assertTrue("Error, random is too high", 10 >= score);
+        assertTrue("Error, random is too low",  0  <= score);
+        System.out.println("Random Number is " + score);
+    }
 }
