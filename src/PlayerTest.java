@@ -1,4 +1,3 @@
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -6,9 +5,7 @@ import static org.junit.Assert.*;
 public class PlayerTest {
     Player testPlayer = new Player(1,"TestPlayer", "Left", "Yes", 0,false,false);
     /*
-
         Test Get Methods
-
     */
     //Test Player Name
     @Test

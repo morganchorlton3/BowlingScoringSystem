@@ -9,17 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import java.util.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 public class Lane2Controller {
     //Variables
-    private int strikeCount;
-    private int max =0;
+    int max =0;
     private String message;
     private int frame = 1;
     private static ArrayList<Player> PlayerList = SetupController.getPlayerList();
@@ -31,14 +26,16 @@ public class Lane2Controller {
     private int count = 0;
     private String winnerName;
     private boolean lastRoundStrike =  false;
+    private static boolean simulateStrike = false;
     private int id;
+    private int lastTurn= 1;
     public Player activePlayer = null;
     //JFX initialization
     @FXML
     Label alertLabel;
     /* Lane 1 */
     @FXML
-    Button lane2BowlBtn, orderBtn;
+    Button lane2BowlBtn, orderBtn, simulateStrikeBtn;
     @FXML
     Label lane2score, lane2score2, lane2score3, lane2add, playerName, playerLabel;
     @FXML
@@ -59,9 +56,13 @@ public class Lane2Controller {
 
     }
 
-    private static int getScore(int max) {
+    public static int getScore(int max) {
         Random rand = new Random();
         int randomnum = rand.nextInt(max + 1);
+        if (simulateStrike){
+            randomnum = 10;
+            simulateStrike = false;
+        }
         return randomnum;
     }
     private Player getPlayer(int count) {
@@ -91,22 +92,25 @@ public class Lane2Controller {
                 frame++;
                 handleScore(frame, score1, score2);
                 getPlayer(count);
-                //checkForStrike();
             } else if (count <= size) {
                 handleScore(frame, score1, score2);
                 getPlayer(count);
-                //checkForStrike();
+            }
+            if (frame == 11) {
+                handleWinner();
+                SetLastGo();
+                CheckLastGo();
+                lane2BowlBtn.setText("Finish Game");
+                turn=10;
             }
             count++;
-            turn=1;
         }else if (turn == 10) {
+            lane2BowlBtn.setText("Exit Application");
+            turn++;
+        }else if (turn==11){
             System.out.println("Exit program");
             //System.exit(0);
         }
-    }
-    private void handleScore(int frame, int score1, int score2){
-        Player activePlayer = PlayerList.get(count);
-        activePlayer.setScore(frame, score1, score2);
     }
     private void takeTurn1() {
         score1 = getScore(max);
@@ -117,6 +121,10 @@ public class Lane2Controller {
         lane2BowlBtn.setText("Bowl again");
         handlePins(score1);
         turn++;
+        if(score1 == 10){
+            message = "Strike";
+            alert(message, 1);
+        }
     }
     private void takeTurn2(){
         score2 = getScore(max);
@@ -128,17 +136,16 @@ public class Lane2Controller {
         for (RadioButton button : radios) {
             button.setSelected(true);
         }
-        int size = PlayerList.size();
         totalScore = score1 + score2;
-        if(totalScore == 10){
+        if(totalScore == 10 && score1 != 10){
             message = "Spare";
             alert(message, 1);
         }
         handlePins(totalScore);
-        //handleLastGo();
         turn++;
     }
     private void takeTurn3() {
+        System.out.println(frame);
         lane2score.setVisible(false);
         lane2score2.setVisible(false);
         lane2add.setVisible(false);
@@ -148,22 +155,41 @@ public class Lane2Controller {
         }
         updateScoreboard();
         max = 10;
-        if (frame == 10) {
-            lane2BowlBtn.setText("Finish Game");
-            handleWinner();
-        }
+        turn = 1;
         totalScore = 0;
     }
-    private void checkScore(){
-        if(score1 == 10){
-            System.out.println("Strike");
-            strikeCount++;
-            //activePlayer.setStrikeCount(strikeCount);
-            //System.out.println(activePlayer);
-        }else if(score1+score2 == 10){
-            System.out.println("Spare");
+    private void handleScore(int frame, int score1, int score2){
+        Player activePlayer = PlayerList.get(count);
+        activePlayer.setScore(frame, score1, score2);
+        int newScore = score1+score2;
+        lastRoundStrike = activePlayer.isLastStrike();
+        if (lastRoundStrike){
+            activePlayer.setScore(frame-1, 10, newScore);
+            activePlayer.setLastStrike(false);
+        }else if (score1 == 10){
+            activePlayer.setLastStrike(true);
+        }else if (frame == 10 && activePlayer.isLastStrike()){
+            System.out.println(activePlayer.getName() + " Strike on last go");
         }
-        turn++;
+    }
+    private void SetLastGo(){
+        for (int i = 0; i < PlayerList.size(); i++) {
+            String lastGoScore = activePlayer.getScore(10);
+            if (lastGoScore.contains("X")) {
+                activePlayer.setLastStrike(true);
+            } else {
+                activePlayer.setLastStrike(false);
+            }
+        }
+    }
+    private void CheckLastGo(){
+        for (int i = 0; i < PlayerList.size(); i++) {
+            boolean lastRoundStrike = activePlayer.isLastStrike();
+            if (lastRoundStrike){
+                System.out.println("Last Round Strike");
+                turn=1;
+            }
+        }
     }
     private void handlePins(int score){
         int counter = 0;
@@ -194,13 +220,12 @@ public class Lane2Controller {
             }else if(activePlayer.getTotal() == highestScore){
                 message = "It's a tie";
                 alert(message, 10);
-            }else{
-                message = winnerName + " is the winner";
-                alert(message, 10);
             }
         }
+        message = winnerName + " is the winner";
+        alert(message, 10);
         System.out.println(highestScore + " Player ID = " + highestScorePlayerID);
-        turn = 10;
+        lane2BowlBtn.setText("Finish Game");
     }
     public void initialize() {
         for (RadioButton button : radios) {
@@ -242,6 +267,10 @@ public class Lane2Controller {
                 new SimpleStringProperty(cellData.getValue().getScore(10)));
     }
     /* Order Food */
+    @FXML
+    private void SimulateStrike(ActionEvent event) throws IOException{
+        simulateStrike = true;
+    }
     @FXML
     private void orderBtnHandle(ActionEvent event) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Order.fxml"));

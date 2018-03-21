@@ -79,10 +79,10 @@ public class SetupController{
     @FXML
     private void startLane1BtnHandle(ActionEvent event)throws IOException {
         if (checkMinPlayers(table) == true) {
-            int playerList = table.getItems().size();
+            int playerListSize = table.getItems().size();
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setHeaderText("Are you sure you want to start the game?");
-            confirmAlert.setContentText("You have added " + playerList + " players to the game is this correct?");
+            confirmAlert.setContentText("You have added " + playerListSize + " players to the game is this correct?");
             Optional<ButtonType> option = confirmAlert.showAndWait();
             if (option.get() == ButtonType.OK) {
                 String playerName = nameCol.toString().split(",")[0].substring(1);
@@ -96,6 +96,10 @@ public class SetupController{
                 lane1Stage.setScene(new Scene(root1));
                 lane1Stage.show();
                 startLane1Btn.setDisable(true);
+                for ( int i = 0; i<table.getItems().size(); i++) {
+                    table.getItems().clear();
+                }
+                playerList.clear();
             }else if (option.get() == ButtonType.CANCEL) {
                 confirmAlert.close();
             }
@@ -104,10 +108,10 @@ public class SetupController{
     @FXML
     public void startLane2BtnHandle(ActionEvent event)throws IOException {
         if (checkMinPlayers(table) == true) {
-            int playerList = table.getItems().size();
+            int playerListSize = table.getItems().size();
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setHeaderText("Are you sure you want to start the game?");
-            confirmAlert.setContentText("You have added " + playerList + " players to the game is this correct?");
+            confirmAlert.setContentText("You have added " + playerListSize + " players to the game is this correct?");
             Optional<ButtonType> option = confirmAlert.showAndWait();
             if (option.get() == ButtonType.OK) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Lane2.fxml"));
@@ -119,6 +123,10 @@ public class SetupController{
                 lane2Stage.setScene(new Scene(root1));
                 lane2Stage.show();
                 startLane2Btn.setDisable(true);
+                for ( int i = 0; i<table.getItems().size(); i++) {
+                    table.getItems().clear();
+                }
+                playerList.clear();
             }else if (option.get() == ButtonType.CANCEL) {
                 confirmAlert.close();
             }

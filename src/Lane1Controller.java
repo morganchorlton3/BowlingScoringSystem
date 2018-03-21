@@ -96,14 +96,20 @@ public class Lane1Controller {
                 handleScore(frame, score1, score2);
                 getPlayer(count);
             }
+            if (frame == 11) {
+                handleWinner();
+                SetLastGo();
+                CheckLastGo();
+                lane1BowlBtn.setText("Finish Game");
+                turn=10;
+            }
             count++;
         }else if (turn == 10) {
-            handleWinner();
             lane1BowlBtn.setText("Exit Application");
             turn++;
         }else if (turn==11){
             System.out.println("Exit program");
-            System.exit(0);
+            //System.exit(0);
         }
     }
     private void takeTurn1() {
@@ -149,14 +155,7 @@ public class Lane1Controller {
         }
         updateScoreboard();
         max = 10;
-        if (frame == 10) {
-            SetLastGo();
-            CheckLastGo();
-            lane1BowlBtn.setText("Finish Game");
-            turn=10;
-        }else{
-            turn = 1;
-        }
+        turn = 1;
         totalScore = 0;
     }
     private void handleScore(int frame, int score1, int score2){
