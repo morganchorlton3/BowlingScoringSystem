@@ -74,9 +74,6 @@ public class Player {
         }
         scores[frame] = scoreString;
     }
-    public void updateScore(int frame, int newScore){
-        setScore(frame-1, 10 , newScore);
-    }
     public String getScore(int whichScore) {
         return scores[whichScore] ;
     }

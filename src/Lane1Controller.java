@@ -99,14 +99,6 @@ public class Lane1Controller {
                 getPlayer(count);
             }
             count++;
-        }else if (lastTurn == 1){
-            takeTurn1();
-            lastTurn++;
-        }else if (lastTurn == 2){
-            takeTurn2();
-            lastTurn++;
-        }else if (lastTurn == 3){
-            handleWinner();
         }else if (turn == 10) {
             handleWinner();
             lane1BowlBtn.setText("Exit Application");
@@ -114,22 +106,6 @@ public class Lane1Controller {
         }else if (turn==11){
             System.out.println("Exit program");
             System.exit(0);
-        }
-    }
-    private void handleScore(int frame, int score1, int score2){
-        Player activePlayer = PlayerList.get(count);
-        activePlayer.setScore(frame, score1, score2);
-        int newScore = score1+score2;
-        lastRoundStrike = activePlayer.isLastStrike();
-        boolean ExtraGo = activePlayer.isExtraGo();
-        if (lastRoundStrike){
-            activePlayer.setScore(frame-1, 10, newScore);
-            activePlayer.setLastStrike(false);
-        }else if (lastRoundStrike && frame == 10){
-            lastTurn=1;
-        }else if (ExtraGo){
-            int LastnewScore = score1 + score2;
-            activePlayer.setScore(frame-1, 10, LastnewScore);
         }
     }
     private void takeTurn1() {
@@ -163,7 +139,6 @@ public class Lane1Controller {
             alert(message, 1);
         }
         handlePins(totalScore);
-        //handleLastGo();
         turn++;
     }
     private void takeTurn3() {
@@ -187,6 +162,20 @@ public class Lane1Controller {
         }
         totalScore = 0;
     }
+    private void handleScore(int frame, int score1, int score2){
+        Player activePlayer = PlayerList.get(count);
+        activePlayer.setScore(frame, score1, score2);
+        int newScore = score1+score2;
+        lastRoundStrike = activePlayer.isLastStrike();
+        if (lastRoundStrike){
+            activePlayer.setScore(frame-1, 10, newScore);
+            activePlayer.setLastStrike(false);
+        }else if (score1 == 10){
+            activePlayer.setLastStrike(true);
+        }else if (frame == 10 && activePlayer.isLastStrike()){
+            System.out.println(activePlayer.getName() + " Strike on last go");
+        }
+    }
     private void SetLastGo(){
         for (int i = 0; i < PlayerList.size(); i++) {
             String lastGoScore = activePlayer.getScore(10);
@@ -201,7 +190,7 @@ public class Lane1Controller {
         for (int i = 0; i < PlayerList.size(); i++) {
             boolean lastRoundStrike = activePlayer.isLastStrike();
             if (lastRoundStrike){
-                System.out.println(activePlayer);
+                turn=1;
             }
         }
     }
