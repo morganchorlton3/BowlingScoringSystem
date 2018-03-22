@@ -16,7 +16,7 @@
     -fx-border-color: -fx-secondary;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
-    -fx-font-size: 13pt;
+    -fx-font-size: 12pt;
 }
 
 .button:hover{
